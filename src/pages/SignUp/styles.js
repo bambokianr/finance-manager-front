@@ -26,15 +26,15 @@ export const Container = styled.div`
       color: ${shade(0.2, '#ff9000')};
     }
   }
-`;
 
-export const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  width: 340px;
+  form {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 340px;
 
-  h1 {
-    margin-bottom: 24px;
+    h1 {
+      margin-bottom: 24px;
+    }
   }
 `;
