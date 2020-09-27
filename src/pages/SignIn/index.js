@@ -17,7 +17,7 @@ function SignIn() {
 
       const schema = Yup.object().shape({
         email: Yup.string().required('E-mail obrigatório').email('Digite um e-mail válido'),
-        password: Yup.string().min(6, 'No mínimo 6 dígitos'),
+        password: Yup.string().required('Senha obrigatória'),
       });
       await schema.validate(data, { abortEarly: false });
     } catch(err) {
