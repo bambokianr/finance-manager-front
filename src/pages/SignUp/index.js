@@ -11,7 +11,6 @@ import { Container } from './styles';
 
 function SignUp() {
   const formRef = useRef(null);
-
   const handleSubmit = useCallback(async data => {
     try {
       formRef.current.setErrors({});
