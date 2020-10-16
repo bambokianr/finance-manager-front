@@ -5,7 +5,7 @@ import SignIn from './pages/SignIn';
 // import SignUp from './pages/SignUp';
 // import InsertExpense from './pages/InsertExpense';
 
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider } from './hooks/AuthContext';
 
 function App() {
   return (
