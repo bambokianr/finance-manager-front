@@ -2,6 +2,7 @@
 - unform: lib que evita que a cada atualização de um campo do formulário salvo em um estado, o componente seja renderizado novamente
 - yup: validação de dados (vindos dos formulários)
 - axios: cliente HTTP para consumo de api backend
+- react-router-dom: lidar com rotas da aplicação
 
 context API -> guardar estados globais importantes para vários componentes da aplicação
 local storage -> armazenamento de infos mesmo com refresh da pag
