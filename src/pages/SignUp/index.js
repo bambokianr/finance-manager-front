@@ -2,7 +2,8 @@ import React, { useCallback, useRef } from 'react';
 import { FiArrowLeft, FiUser, FiMail, FiLock } from 'react-icons/fi';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+// import api from '../services/api';
 
 import getValidationErrors from '../../utils/getValidationErrors';
 
@@ -13,6 +14,8 @@ import { Container } from './styles';
 
 function SignUp() {
   const formRef = useRef(null);
+  const history = useHistory();
+
   const handleSubmit = useCallback(async data => {
     try {
       formRef.current.setErrors({});
@@ -23,6 +26,9 @@ function SignUp() {
         password: Yup.string().min(6, 'No mínimo 6 dígitos'),
       });
       await schema.validate(data, { abortEarly: false });
+
+      // await api.post('users', data);
+      // history.push('/');
     } catch(err) {
       const errors = getValidationErrors(err);
       formRef.current.setErrors(errors);

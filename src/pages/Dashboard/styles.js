@@ -4,4 +4,5 @@ export const Container = styled.div`
 `;
 
 export const Text = styled.p`
+  color: #000;
 `;
