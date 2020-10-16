@@ -2,6 +2,7 @@ import React, { useCallback, useRef } from 'react';
 import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
+import { Link } from 'react-router-dom';
 
 import { useAuth } from '../../hooks/AuthContext';
 import getValidationErrors from '../../utils/getValidationErrors';
@@ -45,10 +46,10 @@ function SignIn() {
         <Input name="password" type="password" icon={FiLock} placeholder="Senha" />
         <Button type="submit">Entrar</Button>
       </Form>
-      <a href="">
+      <Link to="/signup">
         <FiLogIn />
         Criar conta
-      </a>
+      </Link>
     </Container>
   );
 }

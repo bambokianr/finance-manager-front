@@ -2,6 +2,8 @@ import React, { useCallback, useRef } from 'react';
 import { FiArrowLeft, FiUser, FiMail, FiLock } from 'react-icons/fi';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
+import { Link } from 'react-router-dom';
+
 import getValidationErrors from '../../utils/getValidationErrors';
 
 import Input from '../../components/Input';
@@ -36,10 +38,10 @@ function SignUp() {
         <Input name="password" type="password" icon={FiLock} placeholder="Senha" />
         <Button type="submit">Cadastrar</Button>
       </Form>
-      <a href="">
+      <Link to="/">
         <FiArrowLeft />
         Voltar para login
-      </a>
+      </Link>
     </Container>
   );
 }
