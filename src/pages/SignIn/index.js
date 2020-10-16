@@ -2,6 +2,8 @@ import React, { useCallback, useRef } from 'react';
 import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
+
+import { useAuth } from '../../context/AuthContext';
 import getValidationErrors from '../../utils/getValidationErrors';
 
 import Input from '../../components/Input';
@@ -11,6 +13,8 @@ import { Container } from './styles';
 
 function SignIn() {
   const formRef = useRef(null);
+  const { user, signIn } = useAuth();
+  
   const handleSubmit = useCallback(async data => {
     try {
       formRef.current.setErrors({});
@@ -20,11 +24,17 @@ function SignIn() {
         password: Yup.string().required('Senha obrigatória'),
       });
       await schema.validate(data, { abortEarly: false });
+      signIn({
+        email: data.email,
+        password: data.password,
+      });
     } catch(err) {
       const errors = getValidationErrors(err);
       formRef.current.setErrors(errors);
     }
-  }, []);
+  }, [signIn]);
+
+  console.log(user);
 
   return (
     <Container>
