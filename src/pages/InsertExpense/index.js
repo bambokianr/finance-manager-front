@@ -15,7 +15,7 @@ function InsertExpense(){
     try {
       formRef.current.setErrors({});
       const schema = Yup.object().shape({
-        description: Yup.string().required('Descrição obrigatório'),
+        description: Yup.string().required('Descrição obrigatória'),
         date: Yup.string().required('Data obrigatória'),
         value: Yup.number().required('Valor obrigatório').positive('Valor deve ser positivo.'),
       });

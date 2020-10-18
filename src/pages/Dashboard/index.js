@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 
 import { useAuth } from '../../hooks/AuthContext';
-
-import { Container, Header, HeaderContent, Profile, ActionContent } from './styles';
+import Modal from '../../components/Modal';
+import InsertExpense from '../../pages/InsertExpense';
 
 import { FiEdit, FiPower } from 'react-icons/fi';
 // import logoImg from '../../assets/logo.svg';
+
+import { Container, Header, HeaderContent, Profile, ActionContent } from './styles';
 
 function Dashboard() {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -37,7 +39,11 @@ function Dashboard() {
           </ActionContent>
         </HeaderContent>
       </Header>
-      {isModalVisible && <h1>Modal</h1>}
+      {isModalVisible && 
+        <Modal onClose={() => setIsModalVisible(false)}>
+          <InsertExpense />
+        </Modal>
+      }
     </Container>
   );
 }
