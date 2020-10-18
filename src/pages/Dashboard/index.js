@@ -5,9 +5,29 @@ import Modal from '../../components/Modal';
 import InsertExpense from '../../pages/InsertExpense';
 
 import { FiEdit, FiPower } from 'react-icons/fi';
+import { FaRegMoneyBillAlt } from 'react-icons/fa';
 // import logoImg from '../../assets/logo.svg';
 
-import { Container, Header, HeaderContent, Profile, ActionContent } from './styles';
+import { Container, Header, HeaderContent, Profile, ActionContent, Content, Overview, DayReminders, DayRemindersContent, ReminderContent, LastExpenses } from './styles';
+
+const mock = [
+  {
+    description: 'descrição 1 do lembrete e tals lorem ipsum dolor amet',
+    value: 'R$ 1235,34'
+  },
+  {
+    description: 'descriçãoasfsad sdf das fsd 1 do lembrete e tals lorem ipsum dolor amet',
+    value: 'R$ 1235,34'
+  },
+  {
+    description: 'descriçãoasfsad sdf das fsd 1 do lembrete e tals lorem ipsum dolor amet',
+    value: 'R$ 1235,34'
+  },
+  {
+    description: 'descriçãoasfsad sdf das fsd 1 do lembrete e tals lorem ipsum dolor amet',
+    value: 'R$ 1235,34'
+  },
+];
 
 function Dashboard() {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -20,6 +40,11 @@ function Dashboard() {
 
   return (
     <Container>
+      {isModalVisible && 
+        <Modal onClose={() => setIsModalVisible(false)}>
+          <InsertExpense />
+        </Modal>
+      }
       <Header>
         <HeaderContent>
           {/* <img src={logoImg} alt="" /> */}
@@ -39,11 +64,32 @@ function Dashboard() {
           </ActionContent>
         </HeaderContent>
       </Header>
-      {isModalVisible && 
-        <Modal onClose={() => setIsModalVisible(false)}>
-          <InsertExpense />
-        </Modal>
-      }
+      <Content>
+        <Overview>
+          <h1>Overview de despesas</h1>
+          <p>
+            <span>Hoje</span>
+            <span>Dia 06</span>
+            <span>Segunda-feira</span>
+          </p>
+
+          <DayReminders>
+            <strong>Lembretes do dia</strong>
+            <DayRemindersContent>
+              {mock.map(reminder => 
+                <ReminderContent>
+                  <p>{reminder.description}</p>
+                  <span>
+                    <FaRegMoneyBillAlt />
+                    {reminder.value}
+                  </span>
+                </ReminderContent>
+              )}
+            </DayRemindersContent>
+          </DayReminders>
+        </Overview>
+        <LastExpenses />
+      </Content>
     </Container>
   );
 }

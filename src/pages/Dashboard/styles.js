@@ -59,3 +59,72 @@ export const Profile = styled.div`
     }
   }
 `;
+
+export const Content = styled.main`
+  max-width: 1120px;
+  margin: 64px auto;
+  display: flex;
+`;
+
+export const Overview = styled.div`
+  flex: 1;
+  margin-right: 120px;
+
+  h1 {
+    font-size: 36px;
+  }
+
+  p {
+    margin-top: 8px;
+    color: #ff9000;
+
+    span + span {
+      margin-left: 8px;
+      padding-left: 8px;
+      border-left: 1px solid #ff9000;
+    }
+  }
+`;
+
+export const LastExpenses = styled.aside`
+  width: 380px;
+`;
+
+export const DayReminders = styled.div`
+  margin-top: 64px;
+
+  strong {
+    color: #999591;
+    font-size: 20px;
+    font-weight: 400;
+  }
+`;
+
+export const DayRemindersContent = styled.div`
+  margin-top: 12px;
+  height: 280px;
+  overflow-y: scroll;
+  width: 85%;
+`;
+
+export const ReminderContent = styled.div`
+  background: #3b3e47;
+  display: flex;
+  flex-direction: column;
+  width: 96%;
+  padding: 16px 24px;
+  border-radius: 10px;
+  margin: 8px 0;
+
+  span {
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+
+    svg {
+      width: 18px;
+      height: 18px;
+      margin-right: 8px;
+    }
+  }
+`;
