@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { BarChart as Chart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
+import Select from '../../components/Select';
+
 import { Container, SelectContainer, YAxisLabel, CustomTooltipContainer } from './styles';
 
 const CustomTooltip = ({ active, payload, label }) => {
@@ -17,11 +19,11 @@ const CustomTooltip = ({ active, payload, label }) => {
 };
 
 function BarChart({ filterOptions, data = [] }) {
-  const [selectedFilter, setSelectedFilter] = useState('all');
+  const [selectedFilter, setSelectedFilter] = useState("all");
   const [chartData, setChartData] = useState(data);
   
-  const handleFilter = useCallback((event) => {
-    setSelectedFilter(event.target.value);
+  const handleFilter = useCallback((optionValue) => {
+    setSelectedFilter(optionValue);
   }, []);
 
   useEffect(() => {
@@ -60,12 +62,12 @@ function BarChart({ filterOptions, data = [] }) {
       {filterOptions && 
         <SelectContainer>
           <p>Filtrar por tags</p>
-          <select name="select" onChange={handleFilter}>
-          <option value="all"></option>
-            {filterOptions.map(option => 
-              <option key={option} value={option}>{option}</option> 
-            )} 
-          </select>
+          <Select 
+            isToChart={true}
+            nullValue="all"
+            dataOptions={filterOptions}
+            onChangeOption={handleFilter}
+          />
         </SelectContainer>
       }
       <YAxisLabel><p>R$</p></YAxisLabel>

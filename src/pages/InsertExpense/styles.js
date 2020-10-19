@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { shade } from 'polished';
 
 export const Container = styled.div`
@@ -42,13 +42,4 @@ export const Container = styled.div`
 export const ContainerInputWithIcon = styled.div`
   display: flex;
   margin-bottom: 8px;
-  
-  select {
-    width: 100%;
-    background: #232129;
-    border-radius: 10px;
-    border: 2px solid #232129;
-    color: #fff;
-    padding: 0 16px;
-  }
 `;

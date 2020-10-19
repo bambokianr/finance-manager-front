@@ -7,6 +7,7 @@ import { GrSubtractCircle, GrAddCircle } from 'react-icons/gr';
 import { tags as mockTags } from '../../utils/mocks';
 
 import Input from '../../components/Input';
+import Select from '../../components/Select';
 import Button from '../../components/Button';
 
 import { Container, ContainerInputWithIcon } from './styles';
@@ -14,11 +15,16 @@ import { Container, ContainerInputWithIcon } from './styles';
 function InsertExpense() {
   const [createNewTag, setCreateNewTag] = useState(false);
   const [isExpensePaid, setIsExpensePaid] = useState(false);
+  const [selectedOptionValue, setSelectedOptionValue] = useState(null);
   const [tags, setTags] = useState([]);
   const formRef = useRef(null);
 
   useEffect(() => {
     setTags(mockTags);
+  }, []);
+
+  const onChangeOption = useCallback((optionValue) => {
+    optionValue === "all" ? setSelectedOptionValue(null) : setSelectedOptionValue(optionValue);
   }, []);
 
   const handleSubmit = useCallback(async data => {
@@ -43,12 +49,12 @@ function InsertExpense() {
         <h1>Insira sua despesa:</h1>
         {(!createNewTag) ? 
           <ContainerInputWithIcon>
-            <select name="select" onChange={() => {}}>
-            <option value="all"></option>
-              {tags.map(tag => 
-                <option key={tag} value={tag}>{tag}</option> 
-              )} 
-            </select>
+            <Select 
+              nullValue="all"
+              nullOption="Selecionar tag"
+              dataOptions={tags}
+              onChangeOption={onChangeOption}
+            />
             <button type="button" onClick={() => setCreateNewTag(true)}><GrAddCircle /></button>
           </ContainerInputWithIcon>
         : 
@@ -60,8 +66,8 @@ function InsertExpense() {
         <Input name="description" placeholder="Descrição"/>
         <Input name="date" type="date"/>
         <Input name="value" placeholder="Valor: 0,00"/>
-        <input type="checkbox" name="expensePaid" checked={isExpensePaid} onClick={() => setIsExpensePaid(!isExpensePaid)} />
-        <label for="expensePaid">{!!isExpensePaid ? 'Despesa paga' : 'Despesa não paga'}</label>
+        {/* <input type="checkbox" name="expensePaid" checked={isExpensePaid} onClick={() => setIsExpensePaid(!isExpensePaid)} /> */}
+        <label htmlFor="expensePaid">{!!isExpensePaid ? 'Despesa paga' : 'Despesa não paga'}</label>
         {/* ADICIONAR LEMBRETE - prazo para pagar a despeza */}
         {!isExpensePaid && <Input name="date" type="date"/>} 
         <Button type="submit">Inserir</Button>
