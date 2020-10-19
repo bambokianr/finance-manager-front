@@ -13,13 +13,12 @@ create table users(
     name varchar(40) not null,
     email varchar(40) not null UNIQUE,
     status char,
-    id_comfirm int null unique,
-    id_comfirm_route varchar(10) null UNIQUE
+    id_comfirm_route varchar(10) null,
 );
-
+-- select data_part('day number', current_date)
+-- select extract(dow from  current_date)
 create or replace function check_user_validation() returns TRIGGER as '
 declare
-    high_id_comfirm int;
     begin
         raise notice ''id = %'', new.id_user;
         if new.account_type = ''S'' then
@@ -36,12 +35,6 @@ declare
         if new.status is null then
             new.status := ''0'';
         end if;
-
-        high_id_comfirm := (select id_comfirm from users order by id_comfirm fetch first 1 rows only);
-        high_id_comfirm := high_id_comfirm + 1;
-        new.id_comfirm := high_id_comfirm;
-
-
       RETURN new;
 
     end;

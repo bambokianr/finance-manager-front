@@ -12,6 +12,7 @@ values ('F', 'Pedro Alves', 'pedro@gmail.com'),
        ('F', 'Pedro Souza', 'pedroasd@gmail.com'),
        ('F', 'Fernando Souza', 'fernando@gmail.com');
 
+select create_id_validation('pedro@gmail.com');
 
 -- insert into users(account_type, login, password, name, email)
 -- values ('S', 'anderson', "")

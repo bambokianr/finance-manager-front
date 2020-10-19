@@ -1,6 +1,5 @@
 create or replace function generate_string(num int)
 returns text
-language plpgsql
     as
     $$
         declare
@@ -8,7 +7,6 @@ language plpgsql
                             '       V,W,X,Y,Z,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z}';
             result text = '';
             i int := 0;
-            n int := num;
         begin
             if num < 0 then
                 raise exception 'num has to be bigger than zero';
@@ -18,7 +16,7 @@ language plpgsql
               end loop;
             return result;
         end;
-    $$;
+    $$ language plpgsql;
 
 
 select generate_string(10);
