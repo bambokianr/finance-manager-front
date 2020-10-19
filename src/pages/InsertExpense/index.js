@@ -19,6 +19,7 @@ function InsertExpense(){
         date: Yup.string().required('Data obrigatória'),
         value: Yup.number().required('Valor obrigatório').positive('Valor deve ser positivo.'),
       });
+      console.log('DATA', data);
       await schema.validate(data, { abortEarly: false });
     } catch(err) {
       const errors = getValidationErrors(err);

@@ -1,42 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 
 import { useAuth } from '../../hooks/AuthContext';
+import { expenses, tags } from '../../utils/mocks';
 import Modal from '../../components/Modal';
 import InsertExpense from '../../pages/InsertExpense';
+import BarChart from '../../components/BarChart';
 
-import { FiEdit, FiPower } from 'react-icons/fi';
+import { FiCalendar, FiEdit, FiPower, FiPlusSquare } from 'react-icons/fi';
 import { FaRegMoneyBillAlt } from 'react-icons/fa';
 // import logoImg from '../../assets/logo.svg';
 
-import { Container, Header, HeaderContent, Profile, ActionContent, Content, Overview, DayReminders, DayRemindersContent, ReminderContent, LastExpenses } from './styles';
+import { Container, Header, HeaderContent, Profile, ActionContent, Content, Overview, DayReminders, ContainerTitle, DayRemindersContent, ReminderContent, LastExpenses } from './styles';
 
-const mock = [
-  {
-    description: 'descrição 1 do lembrete e tals lorem ipsum dolor amet',
-    value: 'R$ 1235,34'
-  },
-  {
-    description: 'descriçãoasfsad sdf das fsd 1 do lembrete e tals lorem ipsum dolor amet',
-    value: 'R$ 1235,34'
-  },
-  {
-    description: 'descriçãoasfsad sdf das fsd 1 do lembrete e tals lorem ipsum dolor amet',
-    value: 'R$ 1235,34'
-  },
-  {
-    description: 'descriçãoasfsad sdf das fsd 1 do lembrete e tals lorem ipsum dolor amet',
-    value: 'R$ 1235,34'
-  },
-];
+
 
 function Dashboard() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { signOut, user } = useAuth();
 
-  function createExpense() {
-    // alert('create expense');
+  const createExpense = useCallback(() => {
     setIsModalVisible(true);
-  }
+  }, []);
 
   return (
     <Container>
@@ -66,29 +50,37 @@ function Dashboard() {
       </Header>
       <Content>
         <Overview>
-          <h1>Overview de despesas</h1>
+          <h1>Dashboard de despesas</h1>
           <p>
             <span>Hoje</span>
             <span>Dia 06</span>
             <span>Segunda-feira</span>
           </p>
-
           <DayReminders>
-            <strong>Lembretes do dia</strong>
+            <ContainerTitle>
+              <strong>Lembretes do dia</strong>
+              <button type="button" onClick={() => alert('abrir google calendar?')}><FiCalendar /></button>
+            </ContainerTitle>
             <DayRemindersContent>
-              {mock.map(reminder => 
-                <ReminderContent>
-                  <p>{reminder.description}</p>
+              {expenses.map(({ id, description, value }) => 
+                <ReminderContent key={id}>
+                  <p>{description}</p>
                   <span>
                     <FaRegMoneyBillAlt />
-                    {reminder.value}
+                    {`R$ ${value.toFixed(2)}`}
                   </span>
                 </ReminderContent>
               )}
             </DayRemindersContent>
           </DayReminders>
         </Overview>
-        <LastExpenses />
+        <LastExpenses>
+          <ContainerTitle style={{ marginLeft: '20px' }}>
+            <strong>Overview semanal</strong>
+            <button type="button" onClick={() => alert('modal listando todos os expenses - para crud')}><FiPlusSquare /></button>
+          </ContainerTitle>
+          <BarChart filterOptions={tags} data={expenses} />
+        </LastExpenses>
       </Content>
     </Container>
   );
