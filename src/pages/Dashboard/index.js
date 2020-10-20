@@ -28,7 +28,7 @@ function Dashboard() {
   }, []);
 
   return (
-    <Container>
+    <Container isModal={!!isModalInsertExpenseVisible || !!isModalShowAllExpensesVisible}>
       {isModalInsertExpenseVisible && 
         <Modal onClose={() => setIsModalInsertExpenseVisible(false)}>
           <InsertEditExpense />

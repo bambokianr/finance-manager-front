@@ -1,5 +1,3 @@
-import React from 'react';
-
 function InsertEvent(value, description, date) {
 
     var gapi = window.gapi;

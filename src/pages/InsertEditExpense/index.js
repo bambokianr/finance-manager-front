@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-//import { FiArrowLeft, FiMail, FiLock } from 'react-icons/fi';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
 import getValidationErrors from '../../utils/getValidationErrors';
@@ -9,9 +8,10 @@ import { tags as mockTags } from '../../utils/mocks';
 import Input from '../../components/Input';
 import Select from '../../components/Select';
 import Button from '../../components/Button';
+import Checkbox from '../../components/Checkbox';
 import ShowAllExpenses from '../ShowAllExpenses';
 
-import { Container, ContainerInputWithIcon, ContainerCheckbox } from './styles';
+import { Container, ContainerInputWithIcon } from './styles';
 import InsertEvent from '../../components/GoogleCalendar/insertEvent';
 
 function InsertEditExpense({ isEdit = false, expenseToEdit, expenses }) {
@@ -47,18 +47,18 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses }) {
       const schema = Yup.object().shape({
         description: Yup.string().required('Descrição obrigatória'),
         date: Yup.string().required('Data obrigatória'),
-        value: Yup.number().required('Valor obrigatório').positive('Valor deve ser positivo.'),
+        value: Yup.string().required('Valor obrigatório'),
       });
       console.log('DATA', data);
+      //! TRANSFORMAR 'value' PARA number ANTES DE ENVIAR AO BACKEND
       await schema.validate(data, { abortEarly: false });
 
     } catch(err) {
-      // const errors = err && getValidationErrors(err);
-      // formRef.current.setErrors(errors);
+      const errors = err && getValidationErrors(err);
+      formRef.current.setErrors(errors);
     }
 
-    console.log(addRemember);
-    if (addRemember) {
+    if (data.addRemember) {
       InsertEvent(data.value, data.description, data.reminderDate);
     }
   }, []);
@@ -89,16 +89,20 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses }) {
             <Input name="description" placeholder="Descrição" defaultValue={expenseToEdit?.description} />
             <Input name="date" type="date" defaultValue={expenseToEdit?.date} />
             <Input name="value" placeholder="Valor: 0,00" defaultValue={expenseToEdit?.value} />
-            <ContainerCheckbox>
-              <input type="checkbox" name="expensePaid" checked={isExpensePaid} onChange={() => setIsExpensePaid(!isExpensePaid)} />
-              <label htmlFor="expensePaid" onClick={() => setIsExpensePaid(!isExpensePaid)}>Despesa paga</label>
-            </ContainerCheckbox>
+            <Checkbox 
+              name="expensePaid" 
+              label="Despesa paga" 
+              isChecked={isExpensePaid}
+              setIsChecked={() => setIsExpensePaid(!isExpensePaid)}
+            />
             {!isExpensePaid &&
               <>
-                <ContainerCheckbox>
-                  <input type="checkbox" name="addRemember" checked={addRemember} onChange={() => setAddRemember(!addRemember)} />
-                  <label htmlFor="addRemember" onClick={() => setAddRemember(!addRemember)}>Adicionar lembrete</label>
-                </ContainerCheckbox>
+                <Checkbox 
+                  name="addRemember" 
+                  label="Adicionar lembrete" 
+                  isChecked={addRemember}
+                  setIsChecked={() => setAddRemember(!addRemember)}
+                />
                 {!!addRemember && <Input name="reminderDate" type="date" defaultValue={expenseToEdit?.reminderCreated} />}
               </>
             } 
@@ -112,5 +116,4 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses }) {
     </>
   );
 }
-
 export default InsertEditExpense;

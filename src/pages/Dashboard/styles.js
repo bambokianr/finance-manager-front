@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
+  height: ${props => props.isModal ? '100vh' : ''};
+  overflow-y: ${props => props.isModal ? 'hidden' : 'visible'};
 `;
 
 export const Header = styled.header`
