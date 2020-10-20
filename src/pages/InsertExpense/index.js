@@ -1,27 +1,32 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 //import { FiArrowLeft, FiMail, FiLock } from 'react-icons/fi';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
 import getValidationErrors from '../../utils/getValidationErrors';
+import { GrSubtractCircle, GrAddCircle } from 'react-icons/gr';
+import { tags as mockTags } from '../../utils/mocks';
 
 import Input from '../../components/Input';
+import Select from '../../components/Select';
 import Button from '../../components/Button';
 
-import { Container } from './styles';
-import axios from 'axios';
-import CheckBoxInput from '../../components/CheckBox';
+import { Container, ContainerInputWithIcon, ContainerCheckbox } from './styles';
 
-function InsertExpense(){
+function InsertExpense() {
+  const [createNewTag, setCreateNewTag] = useState(false);
+  const [isExpensePaid, setIsExpensePaid] = useState(false);
+  const [addRemember, setAddRemember] = useState(false);
+  const [selectedOptionValue, setSelectedOptionValue] = useState(null);
+  const [tags, setTags] = useState([]);
   const formRef = useRef(null);
 
-  const checkboxOptions = [
-    { id: 'paid', value: 'true', label: 'Despesa paga.' },
-  ];
+  useEffect(() => {
+    setTags(mockTags);
+  }, []);
 
-  const [reminderState, setReminder] = useState({
-    checked: false,
-    disabled: false,
-  });
+  const onChangeOption = useCallback((optionValue) => {
+    optionValue === "all" ? setSelectedOptionValue(null) : setSelectedOptionValue(optionValue);
+  }, []);
 
   const handleSubmit = useCallback(async data => {
     try {
@@ -29,20 +34,12 @@ function InsertExpense(){
       console.log(data.paid.checked);
       formRef.current.setErrors({});
       const schema = Yup.object().shape({
-        tag: Yup.string().required('Filtro obrigatório'),
-        description: Yup.string().required('Descrição obrigatório'),
+        description: Yup.string().required('Descrição obrigatória'),
         date: Yup.string().required('Data obrigatória'),
         value: Yup.number().required('Valor obrigatório').positive('Valor deve ser positivo.'),
       });
+      console.log('DATA', data);
       await schema.validate(data, { abortEarly: false });
-
-      axios
-      .post('http://localhost:3333/expense', data)
-      .then(() => console.log('data sent'))
-      .catch(err => {
-        console.error(err);
-      });
-
     } catch(err) {
       const errors = getValidationErrors(err);
       formRef.current.setErrors(errors);
@@ -53,18 +50,38 @@ function InsertExpense(){
     <Container>
       <Form ref={formRef} onSubmit={handleSubmit}>
         <h1>Insira sua despesa:</h1>
-        <Input name="tag" placeholder="Filtro"/>
+        {(!createNewTag) ? 
+          <ContainerInputWithIcon>
+            <Select 
+              nullValue="all"
+              nullOption="Selecionar tag"
+              dataOptions={tags}
+              onChangeOption={onChangeOption}
+            />
+            <button type="button" onClick={() => setCreateNewTag(true)}><GrAddCircle /></button>
+          </ContainerInputWithIcon>
+        : 
+          <ContainerInputWithIcon>
+            <Input name="tag" placeholder="Nova tag"/>
+            <button type="button" onClick={() => setCreateNewTag(false)}><GrSubtractCircle /></button>
+          </ContainerInputWithIcon>
+        }
         <Input name="description" placeholder="Descrição"/>
         <Input name="date" type="date"/>
         <Input name="value" placeholder="Valor: 0,00"/>
-        <label htmlFor="paid" className="checkbox">
-          <CheckBoxInput type="checkbox" name="paid" onClick={() => setReminder({checked: false, disabled: !reminderState.disabled})}/>
-          Despesa paga.
-        </label>
-        <label htmlFor="paid" className="checkbox">
-          <CheckBoxInput type="checkbox" name="reminder" checked={reminderState.checked} disabled={reminderState.disabled} onChange={() => setReminder({checked: !reminderState.checked})}/>
-          Adicionar Lembrete.
-        </label>
+        <ContainerCheckbox>
+          <input type="checkbox" name="expensePaid" checked={isExpensePaid} onClick={() => setIsExpensePaid(!isExpensePaid)} />
+          <label htmlFor="expensePaid" onClick={() => setIsExpensePaid(!isExpensePaid)}>Despesa paga</label>
+        </ContainerCheckbox>
+        {!isExpensePaid &&
+          <>
+            <ContainerCheckbox>
+              <input type="checkbox" name="addRemember" checked={addRemember} onClick={() => setAddRemember(!addRemember)} />
+              <label htmlFor="addRemember" onClick={() => setAddRemember(!addRemember)}>Adicionar lembrete</label>
+            </ContainerCheckbox>
+            {!!addRemember && <Input name="date" type="date"/>}
+          </>
+        } 
         <Button type="submit">Inserir</Button>
       </Form>
     </Container>
