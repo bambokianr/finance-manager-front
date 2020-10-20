@@ -31,12 +31,12 @@ function Dashboard() {
     <Container isModal={!!isModalInsertExpenseVisible || !!isModalShowAllExpensesVisible}>
       {isModalInsertExpenseVisible && 
         <Modal onClose={() => setIsModalInsertExpenseVisible(false)}>
-          <InsertEditExpense />
+          <InsertEditExpense onClose={() => setIsModalInsertExpenseVisible(false)} />
         </Modal>
       }
       {isModalShowAllExpensesVisible && 
         <Modal onClose={() => setIsModalShowAllExpensesVisible(false)}>
-          <ShowAllExpenses expenses={expenses} />
+          <ShowAllExpenses expenses={expenses} onClose={() => setIsModalShowAllExpensesVisible(false)} />
         </Modal>
       }
       <Header>

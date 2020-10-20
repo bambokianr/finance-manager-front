@@ -14,7 +14,7 @@ import ShowAllExpenses from '../ShowAllExpenses';
 import { Container, ContainerInputWithIcon } from './styles';
 import InsertEvent from '../../components/GoogleCalendar/insertEvent';
 
-function InsertEditExpense({ isEdit = false, expenseToEdit, expenses }) {
+function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, onClose = () => {} }) {
   const [createNewTag, setCreateNewTag] = useState(false);
   const [isExpensePaid, setIsExpensePaid] = useState(false);
   const [addRemember, setAddRemember] = useState(false);
@@ -52,7 +52,7 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses }) {
       console.log('DATA', data);
       //! TRANSFORMAR 'value' PARA number ANTES DE ENVIAR AO BACKEND
       await schema.validate(data, { abortEarly: false });
-
+      onClose();
     } catch(err) {
       const errors = err && getValidationErrors(err);
       formRef.current.setErrors(errors);
@@ -111,7 +111,7 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses }) {
           {isEdit && <Button type="return" onClick={() => setShowAll(true)}>Voltar</Button>}
         </Container>
       :
-        <ShowAllExpenses expenses={expenses} />
+        <ShowAllExpenses expenses={expenses} onClose={onClose} />
       }
     </>
   );

@@ -7,7 +7,7 @@ import { FiTag, FiEdit3, FiTrash2 } from 'react-icons/fi';
 
 import { Container, ContainerTitle, ExpenseContent, AllExpensesContent, InfosExpense, ActionsContent } from './styles';
 
-function ShowAllExpenses({ expenses }) {
+function ShowAllExpenses({ expenses, onClose = () => {} }) {
   const [expenseToEdit, setExpenseToEdit] = useState(null);
   
   const handleDeleteExpense = useCallback((id) => {
@@ -51,6 +51,7 @@ function ShowAllExpenses({ expenses }) {
           isEdit={true}
           expenseToEdit={expenseToEdit}
           expenses={expenses}
+          onClose={onClose}
         /> 
       }
     </>
