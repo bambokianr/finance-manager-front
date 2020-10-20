@@ -8,7 +8,7 @@ export const Container = styled.div`
   justify-content: center;
   margin: 0 auto;
   width: 100%;
-  margin-top: 60px;
+  margin-top: 28px;
 
   > a {
     color: #ff9000;

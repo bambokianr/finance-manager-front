@@ -16,7 +16,7 @@ export const ModalContent = styled.div`
 export const Container = styled.div`
   background: #FFF;
   width: 60%;
-  height: 80%;
+  height: 760px;
   border-radius: 8px;
   
   display: flex;

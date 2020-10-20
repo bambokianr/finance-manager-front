@@ -3,30 +3,39 @@ import React, { useState, useCallback } from 'react';
 import { useAuth } from '../../hooks/AuthContext';
 import { expenses, tags } from '../../utils/mocks';
 import Modal from '../../components/Modal';
-import InsertExpense from '../../pages/InsertExpense';
+import InsertEditExpense from '../../pages/InsertEditExpense';
+import ShowAllExpenses from '../../pages/ShowAllExpenses';
 import BarChart from '../../components/BarChart';
 
 import { FiCalendar, FiEdit, FiPower, FiPlusSquare } from 'react-icons/fi';
 import { FaRegMoneyBillAlt } from 'react-icons/fa';
 // import logoImg from '../../assets/logo.svg';
 
-import { Container, Header, HeaderContent, Profile, ActionContent, Content, Overview, DayReminders, ContainerTitle, DayRemindersContent, ReminderContent, LastExpenses } from './styles';
-
-
+import { Container, Header, HeaderContent, Profile, ActionContent, Content, Overview, DayReminders, ContainerTitle, DayRemindersContent, ReminderContent, Expenses } from './styles';
 
 function Dashboard() {
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalInsertExpenseVisible, setIsModalInsertExpenseVisible] = useState(false);
+  const [isModalShowAllExpensesVisible, setIsModalShowAllExpensesVisible] = useState(false);
   const { signOut, user } = useAuth();
 
   const createExpense = useCallback(() => {
-    setIsModalVisible(true);
+    setIsModalInsertExpenseVisible(true);
+  }, []);
+
+  const listAllExpenses = useCallback(() => {
+    setIsModalShowAllExpensesVisible(true);
   }, []);
 
   return (
     <Container>
-      {isModalVisible && 
-        <Modal onClose={() => setIsModalVisible(false)}>
-          <InsertExpense />
+      {isModalInsertExpenseVisible && 
+        <Modal onClose={() => setIsModalInsertExpenseVisible(false)}>
+          <InsertEditExpense />
+        </Modal>
+      }
+      {isModalShowAllExpensesVisible && 
+        <Modal onClose={() => setIsModalShowAllExpensesVisible(false)}>
+          <ShowAllExpenses expenses={expenses} />
         </Modal>
       }
       <Header>
@@ -74,13 +83,13 @@ function Dashboard() {
             </DayRemindersContent>
           </DayReminders>
         </Overview>
-        <LastExpenses>
-          <ContainerTitle style={{ marginLeft: '20px' }}>
+        <Expenses>
+          <ContainerTitle type="graph">
             <strong>Overview semanal</strong>
-            <button type="button" onClick={() => alert('modal listando todos os expenses - para crud')}><FiPlusSquare /></button>
+            <button type="button" onClick={listAllExpenses}><FiPlusSquare /></button>
           </ContainerTitle>
           <BarChart filterOptions={tags} data={expenses} />
-        </LastExpenses>
+        </Expenses>
       </Content>
     </Container>
   );
