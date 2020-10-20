@@ -86,7 +86,7 @@ export const Overview = styled.div`
   }
 `;
 
-export const LastExpenses = styled.aside`
+export const Expenses = styled.aside`
   width: 500px;
   margin-top: 140px;
 `;

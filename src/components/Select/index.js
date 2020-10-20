@@ -4,7 +4,7 @@ import { FiArrowDown } from 'react-icons/fi';
 
 import { Container, SelectContainer } from './styles';
 
-function Select({ nullValue, nullOption, dataOptions, onChangeOption = () => {}, isToChart = false }) {
+function Select({ nullValue, nullOption, dataOptions, onChangeOption = () => {}, isToChart = false, selectedOptionValue }) {
   const selectRef = useRef(null);
   const [isFocused, setIsFocused] = useState(false);
 
@@ -20,6 +20,7 @@ function Select({ nullValue, nullOption, dataOptions, onChangeOption = () => {},
     <Container isToChart={isToChart}>
       <FiArrowDown />
       <SelectContainer 
+        value={selectedOptionValue || nullValue}
         ref={selectRef}
         isToChart={isToChart} 
         onFocus={handleSelectFocus}
