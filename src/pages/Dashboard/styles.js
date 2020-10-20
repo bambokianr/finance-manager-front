@@ -121,7 +121,7 @@ export const ContainerTitle = styled.div`
 
 export const DayRemindersContent = styled.div`
   margin-top: 12px;
-  height: 280px;
+  height: 368px;
   overflow-y: scroll;
 `;
 
