@@ -30,6 +30,8 @@ function InsertExpense() {
 
   const handleSubmit = useCallback(async data => {
     try {
+      console.log(data);
+      console.log(data.paid.checked);
       formRef.current.setErrors({});
       const schema = Yup.object().shape({
         description: Yup.string().required('Descrição obrigatória'),
