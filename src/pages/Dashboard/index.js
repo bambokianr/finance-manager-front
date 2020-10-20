@@ -84,7 +84,7 @@ function Dashboard() {
           </DayReminders>
         </Overview>
         <Expenses>
-          <ContainerTitle style={{ marginLeft: '20px' }}>
+          <ContainerTitle type="graph">
             <strong>Overview semanal</strong>
             <button type="button" onClick={listAllExpenses}><FiPlusSquare /></button>
           </ContainerTitle>

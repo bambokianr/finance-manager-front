@@ -6,6 +6,10 @@ export const Container = styled.div`
 export const Header = styled.header`
   padding: 32px 0;
   background: #28262e;
+
+  @media(max-width: 1200px) {
+    padding: 32px 48px;
+  }
 `;
 
 export const HeaderContent = styled.div`
@@ -63,11 +67,20 @@ export const Content = styled.main`
   max-width: 1120px;
   margin: 64px auto;
   display: flex;
+
+  @media(max-width: 1200px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 export const Overview = styled.div`
   flex: 1;
   margin-right: 120px;
+  
+  @media(max-width: 1200px) {
+    margin-right: 0;
+  }
 
   h1 {
     font-size: 36px;
@@ -88,6 +101,11 @@ export const Overview = styled.div`
 export const Expenses = styled.aside`
   width: 500px;
   margin-top: 140px;
+
+  @media(max-width: 1200px) {
+    margin-top: 80px;
+    width: 585px;
+  }
 `;
 
 export const DayReminders = styled.div`
@@ -98,6 +116,11 @@ export const ContainerTitle = styled.div`
   width: 96%;
   display: flex;
   align-items: center;
+  margin-left: ${props => props.type === 'graph' ? '20px' : 0};
+
+  @media(max-width: 1200px) {
+    margin-left: 0;
+  }
 
   strong {
     color: #999591;
