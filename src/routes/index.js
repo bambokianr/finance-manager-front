@@ -6,6 +6,7 @@ import Route from './Route';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 import Dashboard from '../pages/Dashboard';
+import InsertExpense from '../pages/InsertExpense';
 
 function Routes() {
   return (
@@ -13,6 +14,7 @@ function Routes() {
       <Route path="/" exact component={SignIn} />
       <Route path="/signup" exact component={SignUp} />
       <Route path="/dashboard" exact component={Dashboard} isPrivate />
+      <Route path="/insert" exact component={InsertExpense} isPrivate />
     </Switch>
   );
 }
