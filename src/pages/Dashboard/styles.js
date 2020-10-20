@@ -42,7 +42,6 @@ export const ActionContent = styled.div`
 export const Profile = styled.div`
   display: flex; 
   align-items: center;
-  margin-left: 80px;
 
   div {
     display: flex;
