@@ -8,9 +8,16 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 
 import { Container } from './styles';
+//import CheckboxInput from '../../components/CheckBox';
+import axios from 'axios';
 
 function InsertExpense(){
   const formRef = useRef(null);
+
+  const checkboxOptions = [
+    { id: 'paid', value: 'true', label: 'Despesa paga.' },
+  ];
+
   const handleSubmit = useCallback(async data => {
     try {
       formRef.current.setErrors({});
@@ -20,6 +27,14 @@ function InsertExpense(){
         value: Yup.number().required('Valor obrigatório').positive('Valor deve ser positivo.'),
       });
       await schema.validate(data, { abortEarly: false });
+
+      axios
+      .post('http://localhost:3333/expense', data)
+      .then(() => console.log('data sent'))
+      .catch(err => {
+        console.error(err);
+      });
+
     } catch(err) {
       const errors = getValidationErrors(err);
       formRef.current.setErrors(errors);
@@ -33,6 +48,8 @@ function InsertExpense(){
         <Input name="description" placeholder="Descrição"/>
         <Input name="date" type="date"/>
         <Input name="value" placeholder="Valor: 0,00"/>
+        
+        
         <Button type="submit">Inserir</Button>
       </Form>
     </Container>
