@@ -61,11 +61,11 @@ function Dashboard() {
       <Content>
         <Overview>
           <h1>Dashboard de despesas</h1>
-          <p>
+          {/* <p>
             <span>Hoje</span>
             <span>Dia 06</span>
             <span>Segunda-feira</span>
-          </p>
+          </p> */}
           <DayReminders>
             <ContainerTitle>
               <strong>Lembretes do dia</strong>
