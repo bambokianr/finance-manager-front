@@ -12,7 +12,7 @@ import Button from '../../components/Button';
 import ShowAllExpenses from '../ShowAllExpenses';
 
 import { Container, ContainerInputWithIcon, ContainerCheckbox } from './styles';
-import InsertEvent from '../../components/GoogleCalendar';
+import InsertEvent from '../../components/GoogleCalendar/insertEvent';
 
 function InsertEditExpense({ isEdit = false, expenseToEdit, expenses }) {
   const [createNewTag, setCreateNewTag] = useState(false);
@@ -52,13 +52,14 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses }) {
       console.log('DATA', data);
       await schema.validate(data, { abortEarly: false });
 
-      console.log(addRemember);
-      if (!addRemember) {
-        InsertEvent(data.value, data.description, data.reminderDate);
-      }
     } catch(err) {
       // const errors = err && getValidationErrors(err);
       // formRef.current.setErrors(errors);
+    }
+
+    console.log(addRemember);
+    if (addRemember) {
+      InsertEvent(data.value, data.description, data.reminderDate);
     }
   }, []);
 

@@ -12,6 +12,7 @@ import { FaRegMoneyBillAlt } from 'react-icons/fa';
 // import logoImg from '../../assets/logo.svg';
 
 import { Container, Header, HeaderContent, Profile, ActionContent, Content, Overview, DayReminders, ContainerTitle, DayRemindersContent, ReminderContent, Expenses } from './styles';
+import OpenCalendar from '../../components/GoogleCalendar/openCalendar';
 
 function Dashboard() {
   const [isModalInsertExpenseVisible, setIsModalInsertExpenseVisible] = useState(false);
@@ -68,7 +69,7 @@ function Dashboard() {
           <DayReminders>
             <ContainerTitle>
               <strong>Lembretes do dia</strong>
-              <button type="button" onClick={() => alert('abrir google calendar?')}><FiCalendar /></button>
+              <button type="button" onClick={() => OpenCalendar()}><FiCalendar /></button>
             </ContainerTitle>
             <DayRemindersContent>
               {expenses.map(({ id, description, value }) => 
