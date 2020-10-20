@@ -13,7 +13,7 @@ create table users(
     name varchar(40) not null,
     email varchar(40) not null UNIQUE,
     status char,
-    id_comfirm_route varchar(10) null,
+    id_comfirm_route varchar(10) null
 );
 -- select data_part('day number', current_date)
 -- select extract(dow from  current_date)
