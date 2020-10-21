@@ -19,8 +19,9 @@ export const SelectContainer = styled.select`
   background: ${props => props.isToChart ? '##F1F2F6' : '#232129'};
   border-radius: 10px;
   border: 2px solid #232129;
-  color: #fff;
+  color: ${props => props.isToChart ? '#232129' : '#F1F2F6'};
   padding: 16px;
+  padding-left: ${props => props.isToChart ? '10px !important' : '16px'};
   -webkit-appearance: none;
 
   ${props => props.isFocused && css`

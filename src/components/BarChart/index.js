@@ -66,6 +66,7 @@ function BarChart({ filterOptions, data = [] }) {
             isToChart={true}
             nullValue="all"
             dataOptions={filterOptions}
+            selectedOptionValue={selectedFilter}
             onChangeOption={handleFilter}
           />
         </SelectContainer>
