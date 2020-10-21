@@ -15,27 +15,26 @@ function AuthProvider({ children }) {
   });
 
   const signIn = useCallback(async ({ email, password }) => {
-    // await api.post('/user/login', { email, password })
-    //   .then(res => {
-    //     const token = res.data.id;
-    //     const user = { name: res.data.name, email: res.data.email };
+    await api.post('/user/login', { email, password })
+      .then(res => {
+        const token = res.data.token;
+        const user = { name: res.data.name, email: res.data.email };
 
-    //     localStorage.setItem('@FinanceManager:token', token);
-    //     localStorage.setItem('@FinanceManager:user', JSON.stringify(user));
-    
-    //     setData({ token, user });
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //     alert('Login inválido. Tente novamente!');
-    //   });
+        localStorage.setItem('@FinanceManager:token', token);
+        localStorage.setItem('@FinanceManager:user', JSON.stringify(user));
+        setData({ token, user });
+      })
+      .catch(err => {
+        console.log(err);
+        alert('Login inválido. Tente novamente!');
+      });
       
     //!mock
-    const response = { data: { user: {name: 'teste', email: 'teste@teste.teste' }, token: '123456789abcde' } };
-    const { token, user } = response.data;
-    localStorage.setItem('@FinanceManager:token', token);
-    localStorage.setItem('@FinanceManager:user', JSON.stringify(user));
-    setData({ token, user });
+    // const response = { data: { user: {name: 'teste', email: 'teste@teste.teste' }, token: '123456789abcde' } };
+    // const { token, user } = response.data;
+    // localStorage.setItem('@FinanceManager:token', token);
+    // localStorage.setItem('@FinanceManager:user', JSON.stringify(user));
+    // setData({ token, user });
   }, []);
 
   const signOut = useCallback(() => {

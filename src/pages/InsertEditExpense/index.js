@@ -11,8 +11,11 @@ import Button from '../../components/Button';
 import Checkbox from '../../components/Checkbox';
 import ShowAllExpenses from '../ShowAllExpenses';
 
-import { Container, ContainerInputWithIcon } from './styles';
 import InsertEvent from '../../components/GoogleCalendar/insertEvent';
+import { useAuth } from '../../hooks/AuthContext';
+import api from '../../services/api';
+
+import { Container, ContainerInputWithIcon } from './styles';
 
 function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, onClose = () => {} }) {
   const [createNewTag, setCreateNewTag] = useState(false);
@@ -22,10 +25,7 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, onClose = 
   const [selectedOptionValue, setSelectedOptionValue] = useState(null);
   const [tags, setTags] = useState([]);
   const formRef = useRef(null);
-
-  useEffect(() => {
-    setTags(mockTags);
-  }, []);
+  const { token } = useAuth();
 
   useEffect(() => {
     if(!!expenseToEdit?.tag) 
@@ -36,21 +36,60 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, onClose = 
       setAddRemember(true);
   }, [expenseToEdit]);
 
+  async function getTags() {
+    await api.get(`/tag?token=${token}`)
+      .then(res => {
+        console.log('[RES - getTags]', res);
+        setTags(res.data);
+      })
+      .catch(err => {
+        console.log('[ERR - getTags]', err);
+      });
+  };
+
+  async function createExpense(data) {
+    console.log('CREATE EXPENSE!');
+    await api.post(`/expense?token=${token}`, data)
+    .then(res => {
+      console.log('res', res);
+    })
+    .catch(err => {
+      console.log('[ERR - createExpense]', err);
+    });
+  };
+
+  async function editExpense(data) {
+    console.log('EDIT EXPENSE!');
+    await api.put(`/expense?token=${token}`, data)
+    .then(res => {
+      console.log('res', res);
+    })
+    .catch(err => {
+      console.log('[ERR - editExpense]', err);
+    });
+  };
+
+  useEffect(() => {
+    getTags();
+  }, []);
+
   const onChangeOption = useCallback((optionValue) => {
     optionValue === "all" ? setSelectedOptionValue(null) : setSelectedOptionValue(optionValue);
   }, []);
 
   const handleSubmit = useCallback(async data => {
     try {
-      console.log(data);
       formRef.current.setErrors({});
       const schema = Yup.object().shape({
         description: Yup.string().required('Descrição obrigatória'),
         date: Yup.string().required('Data obrigatória'),
         value: Yup.string().required('Valor obrigatório'),
       });
+      
       console.log('DATA', data);
       //! TRANSFORMAR 'value' PARA number ANTES DE ENVIAR AO BACKEND
+      !!isEdit ? editExpense(data) : createExpense(data);
+
       await schema.validate(data, { abortEarly: false });
       onClose();
     } catch(err) {

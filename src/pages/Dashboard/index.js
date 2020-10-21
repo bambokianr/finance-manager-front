@@ -1,25 +1,27 @@
 import React, { useState, useCallback, useEffect } from 'react';
 
-import { useAuth } from '../../hooks/AuthContext';
-import { expenses, tags as tagMocks } from '../../utils/mocks';
 import Modal from '../../components/Modal';
 import InsertEditExpense from '../../pages/InsertEditExpense';
 import ShowAllExpenses from '../../pages/ShowAllExpenses';
 import BarChart from '../../components/BarChart';
 
+import OpenCalendar from '../../components/GoogleCalendar/openCalendar';
 import logoImg from '../../assets/logoicon.png';
+import { useAuth } from '../../hooks/AuthContext';
+import { expenses, tags as tagMocks } from '../../utils/mocks';
+import api from '../../services/api';
 
 import { FiCalendar, FiEdit, FiPower, FiPlusSquare } from 'react-icons/fi';
 import { FaRegMoneyBillAlt } from 'react-icons/fa';
 
 import { Container, Header, HeaderContent, Profile, ActionContent, Content, Overview, DayReminders, ContainerTitle, DayRemindersContent, ReminderContent, Expenses } from './styles';
-import OpenCalendar from '../../components/GoogleCalendar/openCalendar';
 
 function Dashboard() {
   const [isModalInsertExpenseVisible, setIsModalInsertExpenseVisible] = useState(false);
   const [isModalShowAllExpensesVisible, setIsModalShowAllExpensesVisible] = useState(false);
   const [dayRemindersData, setDayRemindersData] = useState([]);
   const [tags, setTags] = useState([]);
+  const [allExpenses, setAllExpenses] = useState([]);
   const [expensesChartData, setExpensesChartData] = useState([]);
   const { signOut, user, token } = useAuth();
 
@@ -31,17 +33,63 @@ function Dashboard() {
     setIsModalShowAllExpensesVisible(true);
   }, []);
 
-  useEffect(() => {
+  async function getDayExpenses() {
     //! LEMBRETES DO DIA: [GET /expenses] -> query param = data do dia
-    setDayRemindersData(expenses);
+    await api.get(`/expense?token=${token}`)
+      .then(res => {
+        console.log('res', res);
+        // setDayRemindersData(expenses);
+      })
+      .catch(err => {
+        console.log('[ERR - getDayExpenses]', err);
+      });
+  };
 
-    //! OVERVIEW SEMANAL: [GET /tags] -> query param = data do dia
-    setTags(tagMocks);
+  async function getAllExpenses() {
+    //! LEMBRETES DO DIA: [GET /expenses] -> query param = data do dia
+    await api.get(`/expense?token=${token}`)
+      .then(res => {
+        console.log('res', res);
+        // setAllExpenses(expenses);
+      })
+      .catch(err => {
+        console.log('[ERR - getAllExpenses]', err);
+      });
+  };
 
+  async function getTags() {
+    //! OVERVIEW SEMANAL: [GET /tags]
+    // await api.get(`/tag?token=${token}`, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }})
+    await api.get(`/tag?token=${token}`)
+      .then(res => {
+        console.log('[RES - getTags]', res);
+        setTags(res.data);
+      })
+      .catch(err => {
+        console.log('[ERR - getTags]', err);
+      });
+  };
+
+  async function getExpensesChartData() {
     //! OVERVIEW SEMANAL: [GET /expensesToChart]
-    setExpensesChartData(expenses);
+    await api.get(`/expensesToChart?token=${token}`)
+      .then(res => {
+        console.log('res', res);
+        // setExpensesChartData(expenses);
+      })
+      .catch(err => {
+        console.log('[ERR - getExpensesChartData]', err);
+      });
+  };
+
+  useEffect(() => {
+    getDayExpenses();
+    getAllExpenses();
+    getTags();
+    getExpensesChartData();
 
 
+    setAllExpenses(expenses);
   }, []);
 
   return (
@@ -53,7 +101,7 @@ function Dashboard() {
       }
       {isModalShowAllExpensesVisible && 
         <Modal onClose={() => setIsModalShowAllExpensesVisible(false)}>
-          <ShowAllExpenses expenses={expenses} onClose={() => setIsModalShowAllExpensesVisible(false)} />
+          <ShowAllExpenses expenses={allExpenses} onClose={() => setIsModalShowAllExpensesVisible(false)} />
         </Modal>
       }
       <Header>
@@ -100,7 +148,7 @@ function Dashboard() {
         <Expenses>
           <ContainerTitle type="graph">
             <strong>Overview semanal</strong>
-            <button type="button" onClick={listAllExpenses}><FiPlusSquare /></button>
+            {allExpenses.length !== 0 && <button type="button" onClick={listAllExpenses}><FiPlusSquare /></button>}
           </ContainerTitle>
           <BarChart filterOptions={tags} data={expensesChartData} />
         </Expenses>
