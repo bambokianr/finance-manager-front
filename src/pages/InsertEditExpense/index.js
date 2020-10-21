@@ -61,7 +61,7 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, onClose = 
     if (data.addRemember) {
       InsertEvent(data.value, data.description, data.reminderDate);
     }
-  }, []);
+  }, [onClose]);
 
   return (
     <>

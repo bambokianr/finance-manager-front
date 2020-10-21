@@ -17,7 +17,7 @@ import { Container } from './styles';
 function SignIn() {
   const formRef = useRef(null);
   const history = useHistory();
-  const { user, signIn } = useAuth();
+  const { signIn } = useAuth();
   
   const handleSubmit = useCallback(async data => {
     try {

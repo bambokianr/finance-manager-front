@@ -83,7 +83,7 @@ function BarChart({ filterOptions, data = [] }) {
             <XAxis dataKey="date" />
             <YAxis />
             <Tooltip content={<CustomTooltip />} />
-            <Legend align="right" />
+            <Legend align="right" wrapperStyle={{ bottom: -16 }} />
             <Bar name="gasto diário" dataKey="value" fill="#ff9000" />
           </Chart>
         </>

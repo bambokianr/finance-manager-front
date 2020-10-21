@@ -39,7 +39,7 @@ function SignUp() {
       const errors = getValidationErrors(err);
       formRef.current.setErrors(errors);
     }
-  }, []);
+  }, [history]);
 
   return (
     <Container>
