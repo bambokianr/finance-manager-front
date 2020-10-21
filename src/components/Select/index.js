@@ -26,6 +26,7 @@ function Select({ name, nullValue, nullOption, dataOptions, onChangeOption = () 
     });
   }, [fieldName, registerField]);
 
+  console.log('dataOptions', dataOptions);
   return (
     <Container>
       <FiArrowDown />
@@ -39,7 +40,7 @@ function Select({ name, nullValue, nullOption, dataOptions, onChangeOption = () 
         onChange={() => onChangeOption(selectRef.current?.value)}
       >
         <option value={nullValue}>{nullOption}</option>
-        {dataOptions.map(data => 
+        {dataOptions?.map(data => 
           <option key={data} value={data}>{data}</option> 
         )} 
       </SelectContainer>

@@ -49,7 +49,8 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, onClose = 
 
   async function createExpense(data) {
     console.log('CREATE EXPENSE!');
-    await api.post(`/expense?token=${token}`, data)
+    await api.post(`/expense`, { token, ...data })
+    // await api.post(`/expense?token=${token}`, data)
     .then(res => {
       console.log('res', res);
     })
