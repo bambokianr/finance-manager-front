@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useState, useContext } from 'react';
-// import api from '../services/api';
+import api from '../services/api';
 
 const AuthContext = createContext();
 
@@ -15,15 +15,26 @@ function AuthProvider({ children }) {
   });
 
   const signIn = useCallback(async ({ email, password }) => {
-    // !!!! mock para autenticação
-    // const response = await api.post('login', { email, password });
-    // console.log(response.data);
-    const response = { data: { user: {name: 'teste', email: 'teste@teste.teste' }, token: '123456789abcde' } };
+    // await api.post('/user/login', { email, password })
+    //   .then(res => {
+    //     const token = res.data.id;
+    //     const user = { name: res.data.name, email: res.data.email };
 
+    //     localStorage.setItem('@FinanceManager:token', token);
+    //     localStorage.setItem('@FinanceManager:user', JSON.stringify(user));
+    
+    //     setData({ token, user });
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //     alert('Login inválido. Tente novamente!');
+    //   });
+      
+    //!mock
+    const response = { data: { user: {name: 'teste', email: 'teste@teste.teste' }, token: '123456789abcde' } };
     const { token, user } = response.data;
     localStorage.setItem('@FinanceManager:token', token);
     localStorage.setItem('@FinanceManager:user', JSON.stringify(user));
-
     setData({ token, user });
   }, []);
 
@@ -34,7 +45,7 @@ function AuthProvider({ children }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user: data.user, signIn, signOut }}>
+    <AuthContext.Provider value={{ user: data.user, token: data.token, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );

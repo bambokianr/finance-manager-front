@@ -1,6 +1,12 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
+  h4 {
+    color: #28262e;
+    font-weight: 300;
+    font-size: 14px;
+    margin-top: 18px;
+  }
 `;
 
 export const SelectContainer = styled.div`

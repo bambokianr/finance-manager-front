@@ -59,31 +59,36 @@ function BarChart({ filterOptions, data = [] }) {
 
   return (
     <Container>
-      {filterOptions && 
-        <SelectContainer>
-          <p>Filtrar por tags</p>
-          <ChartSelect 
-            nullValue="all"
-            dataOptions={filterOptions}
-            selectedOptionValue={selectedFilter}
-            onChangeOption={handleFilter}
-          />
-        </SelectContainer>
+      {data.length === 0 ?
+        <h4>Não existem dados suficientes para gerar o gráfico de despesas.</h4>
+      : <>
+          {filterOptions && 
+            <SelectContainer>
+              <p>Filtrar por tags</p>
+              <ChartSelect 
+                nullValue="all"
+                dataOptions={filterOptions}
+                selectedOptionValue={selectedFilter}
+                onChangeOption={handleFilter}
+              />
+            </SelectContainer>
+          }
+          <YAxisLabel><p>R$</p></YAxisLabel>
+          <Chart
+            width={500}
+            height={300}
+            data={chartData}
+          >
+            <CartesianGrid />
+            <XAxis dataKey="date" />
+            <YAxis />
+            <Tooltip content={<CustomTooltip />} />
+            <Legend align="right" wrapperStyle={{ bottom: -16 }} />
+            <Bar name="gasto diário" dataKey="value" fill="#ff9000" />
+          </Chart>
+        </>
       }
-      <YAxisLabel><p>R$</p></YAxisLabel>
-      <Chart
-        width={500}
-        height={300}
-        data={chartData}
-      >
-        <CartesianGrid />
-        <XAxis dataKey="date" />
-        <YAxis />
-        <Tooltip content={<CustomTooltip />} />
-        <Legend align="right" />
-        <Bar name="gasto diário" dataKey="value" fill="#ff9000" />
-      </Chart>
-    </Container>
+      </Container>
   );
 }
 export default BarChart;
