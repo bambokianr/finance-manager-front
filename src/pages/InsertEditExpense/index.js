@@ -13,6 +13,7 @@ import ShowAllExpenses from '../ShowAllExpenses';
 
 import { Container, ContainerInputWithIcon } from './styles';
 import InsertEvent from '../../components/GoogleCalendar/insertEvent';
+import Axios from 'axios';
 
 function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, onClose = () => {} }) {
   const [createNewTag, setCreateNewTag] = useState(false);
@@ -61,6 +62,33 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, onClose = 
     if (data.addRemember) {
       InsertEvent(data.value, data.description, data.reminderDate);
     }
+
+    /*Axios({
+      method: 'get',
+      //url: 'http://financemanagerces26back.herokuapp.com/user',
+      url: 'http://localhost:3333/user',
+      withCredentials: 'include',
+      data: {
+        email: 'leo71.gomes@gmail.com',
+        password: '123456',
+      },
+    })
+    .then(function(response) {
+      console.log(response)
+    });*/
+
+
+    Axios({
+      method: 'post',
+      url: 'http://financemanagerces26back.herokuapp.com/expense',
+      //url: 'http://localhost:3333/expense',
+      withCredentials: true,
+      data: data,
+    })
+    .then(function(response) {
+      console.log(response)
+    });
+
   }, []);
 
   return (
