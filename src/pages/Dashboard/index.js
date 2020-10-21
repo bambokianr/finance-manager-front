@@ -21,7 +21,7 @@ function Dashboard() {
   const [dayRemindersData, setDayRemindersData] = useState([]);
   const [tags, setTags] = useState([]);
   const [expensesChartData, setExpensesChartData] = useState([]);
-  const { signOut, user } = useAuth();
+  const { signOut, user, token } = useAuth();
 
   const createExpense = useCallback(() => {
     setIsModalInsertExpenseVisible(true);

@@ -45,7 +45,7 @@ function AuthProvider({ children }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user: data.user, signIn, signOut }}>
+    <AuthContext.Provider value={{ user: data.user, token: data.token, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );
