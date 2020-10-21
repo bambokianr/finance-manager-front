@@ -10,6 +10,7 @@ import Select from '../../components/Select';
 import Button from '../../components/Button';
 import Checkbox from '../../components/Checkbox';
 import ShowAllExpenses from '../ShowAllExpenses';
+import { useAuth } from '../../hooks/AuthContext';
 
 import { Container, ContainerInputWithIcon } from './styles';
 import InsertEvent from '../../components/GoogleCalendar/insertEvent';
@@ -23,6 +24,7 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, onClose = 
   const [selectedOptionValue, setSelectedOptionValue] = useState(null);
   const [tags, setTags] = useState([]);
   const formRef = useRef(null);
+  const {token} = useAuth();
 
   useEffect(() => {
     setTags(mockTags);
@@ -37,6 +39,7 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, onClose = 
       setAddRemember(true);
   }, [expenseToEdit]);
 
+  
   const onChangeOption = useCallback((optionValue) => {
     optionValue === "all" ? setSelectedOptionValue(null) : setSelectedOptionValue(optionValue);
   }, []);
@@ -62,16 +65,14 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, onClose = 
     if (data.addRemember) {
       InsertEvent(data.value, data.description, data.reminderDate);
     }
-
-    const {token} = useAuth();
     
+    console.log(token);
     Axios({
       method: 'post',
       url: 'http://financemanagerces26back.herokuapp.com/expense',
       //url: 'http://localhost:3333/expense',
-      withCredentials: true,
       data: {
-        id: token,
+        token: token,
         date: data.date,
         value: data.value,
         description: data.description,
@@ -81,41 +82,10 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, onClose = 
       }
     })
     .then(function(response) {
-      console.log(response)
+      console.log("post finalizado");
+      console.log(response);
     });
 
-
-    /*Axios({
-      method: 'post',
-      url: 'http://financemanagerces26back.herokuapp.com/user/login',
-      //url: 'http://localhost:3333/user/login',
-      withCredentials: 'include',
-      data: {
-        email: 'leo71.gomes@gmail.com',
-        password: '123456',
-      },
-    })
-    .then(function(response){
-      console.log(response);
-      Axios({
-        method: 'post',
-        url: 'http://financemanagerces26back.herokuapp.com/expense',
-        //url: 'http://localhost:3333/expense',
-        withCredentials: true,
-        data: {
-          id: token,
-          date: data.date,
-          value: data.value,
-          description: data.description,
-          reminderCreated: data.reminderDate,
-          tag: data.tag,
-          paid: data.expensePaid,
-        }
-      })
-      .then(function(response) {
-        console.log(response)
-      });
-    });*/
 
 
   }, [onClose]);
