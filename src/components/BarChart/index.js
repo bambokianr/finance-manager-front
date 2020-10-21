@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { BarChart as Chart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
-import Select from '../../components/Select';
+import ChartSelect from '../../components/ChartSelect';
 
 import { Container, SelectContainer, YAxisLabel, CustomTooltipContainer } from './styles';
 
@@ -62,10 +62,10 @@ function BarChart({ filterOptions, data = [] }) {
       {filterOptions && 
         <SelectContainer>
           <p>Filtrar por tags</p>
-          <Select 
-            isToChart={true}
+          <ChartSelect 
             nullValue="all"
             dataOptions={filterOptions}
+            selectedOptionValue={selectedFilter}
             onChangeOption={handleFilter}
           />
         </SelectContainer>
