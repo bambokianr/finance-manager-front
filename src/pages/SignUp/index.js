@@ -4,6 +4,8 @@ import { Form } from '@unform/web';
 import * as Yup from 'yup';
 import { Link, useHistory } from 'react-router-dom';
 
+import logoImg from '../../assets/logo.png';
+
 import getValidationErrors from '../../utils/getValidationErrors';
 import api from '../../services/api';
 
@@ -28,7 +30,10 @@ function SignUp() {
       });
       await schema.validate(data, { abortEarly: false });
       
-      await api.post('/user', data);
+      const response = await api.post('/user', data);
+      // const response = await api.post('/user', data, { credentials: 'include' });
+      // const response = await api.post('/user', data, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }, crossDomain: true });
+      console.log('RESPONSE', response);
       history.push('/');
     } catch(err) {
       const errors = getValidationErrors(err);
@@ -38,6 +43,7 @@ function SignUp() {
 
   return (
     <Container>
+      <img src={logoImg} alt="" width={220} style={{ marginBottom: '20px' }} />
       <Form ref={formRef} onSubmit={handleSubmit}>
         <h1>Faça seu cadastro</h1>
         <Input name="name" icon={FiUser} placeholder="Nome"/>

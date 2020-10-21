@@ -1,15 +1,16 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 
 import { useAuth } from '../../hooks/AuthContext';
-import { expenses, tags } from '../../utils/mocks';
+import { expenses, tags as tagMocks } from '../../utils/mocks';
 import Modal from '../../components/Modal';
 import InsertEditExpense from '../../pages/InsertEditExpense';
 import ShowAllExpenses from '../../pages/ShowAllExpenses';
 import BarChart from '../../components/BarChart';
 
+import logoImg from '../../assets/logoicon.png';
+
 import { FiCalendar, FiEdit, FiPower, FiPlusSquare } from 'react-icons/fi';
 import { FaRegMoneyBillAlt } from 'react-icons/fa';
-// import logoImg from '../../assets/logo.svg';
 
 import { Container, Header, HeaderContent, Profile, ActionContent, Content, Overview, DayReminders, ContainerTitle, DayRemindersContent, ReminderContent, Expenses } from './styles';
 import OpenCalendar from '../../components/GoogleCalendar/openCalendar';
@@ -17,6 +18,9 @@ import OpenCalendar from '../../components/GoogleCalendar/openCalendar';
 function Dashboard() {
   const [isModalInsertExpenseVisible, setIsModalInsertExpenseVisible] = useState(false);
   const [isModalShowAllExpensesVisible, setIsModalShowAllExpensesVisible] = useState(false);
+  const [dayRemindersData, setDayRemindersData] = useState([]);
+  const [tags, setTags] = useState([]);
+  const [expensesChartData, setExpensesChartData] = useState([]);
   const { signOut, user } = useAuth();
 
   const createExpense = useCallback(() => {
@@ -25,6 +29,19 @@ function Dashboard() {
 
   const listAllExpenses = useCallback(() => {
     setIsModalShowAllExpensesVisible(true);
+  }, []);
+
+  useEffect(() => {
+    //! LEMBRETES DO DIA: [GET /expenses] -> query param = data do dia
+    setDayRemindersData(expenses);
+
+    //! OVERVIEW SEMANAL: [GET /tags] -> query param = data do dia
+    setTags(tagMocks);
+
+    //! OVERVIEW SEMANAL: [GET /expensesToChart]
+    setExpensesChartData(expenses);
+
+
   }, []);
 
   return (
@@ -41,7 +58,7 @@ function Dashboard() {
       }
       <Header>
         <HeaderContent>
-          {/* <img src={logoImg} alt="" /> */}
+          <img src={logoImg} alt="" width={50} style={{ marginLeft: '16px', marginRight: '8px' }} />
           <Profile>
             <div>
               <span>Bem-vindo,</span>
@@ -61,18 +78,14 @@ function Dashboard() {
       <Content>
         <Overview>
           <h1>Dashboard de despesas</h1>
-          {/* <p>
-            <span>Hoje</span>
-            <span>Dia 06</span>
-            <span>Segunda-feira</span>
-          </p> */}
           <DayReminders>
             <ContainerTitle>
               <strong>Lembretes do dia</strong>
               <button type="button" onClick={() => OpenCalendar()}><FiCalendar /></button>
             </ContainerTitle>
             <DayRemindersContent>
-              {expenses.map(({ id, description, value }) => 
+              {dayRemindersData.length === 0 && <h4>Você não possui lembretes para hoje!</h4>}
+              {dayRemindersData.map(({ id, description, value }) => 
                 <ReminderContent key={id}>
                   <p>{description}</p>
                   <span>
@@ -89,7 +102,7 @@ function Dashboard() {
             <strong>Overview semanal</strong>
             <button type="button" onClick={listAllExpenses}><FiPlusSquare /></button>
           </ContainerTitle>
-          <BarChart filterOptions={tags} data={expenses} />
+          <BarChart filterOptions={tags} data={expensesChartData} />
         </Expenses>
       </Content>
     </Container>
