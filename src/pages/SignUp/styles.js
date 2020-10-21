@@ -35,6 +35,7 @@ export const Container = styled.div`
 
     h1 {
       margin-bottom: 24px;
+      font-size: 22px;
     }
   }
 `;

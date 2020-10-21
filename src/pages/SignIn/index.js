@@ -4,6 +4,8 @@ import { Form } from '@unform/web';
 import * as Yup from 'yup';
 import { Link, useHistory } from 'react-router-dom';
 
+import logoImg from '../../assets/logo.png';
+
 import { useAuth } from '../../hooks/AuthContext';
 import getValidationErrors from '../../utils/getValidationErrors';
 
@@ -15,7 +17,7 @@ import { Container } from './styles';
 function SignIn() {
   const formRef = useRef(null);
   const history = useHistory();
-  const { user, signIn } = useAuth();
+  const { signIn } = useAuth();
   
   const handleSubmit = useCallback(async data => {
     try {
@@ -27,6 +29,8 @@ function SignIn() {
       });
       await schema.validate(data, { abortEarly: false });
 
+      console.log('DATA', data);
+
       await signIn({
         email: data.email,
         password: data.password,
@@ -34,16 +38,14 @@ function SignIn() {
       
       history.push('/dashboard');
     } catch(err) {
-      const errors = getValidationErrors(err);
-      formRef.current.setErrors(errors);
+      // const errors = getValidationErrors(err);
+      // formRef.current.setErrors(errors);
     }
   }, [signIn, history]);
 
-  console.log(user);
-
   return (
     <Container>
-      {/* <img src={logoImg} alt="" /> */}
+      <img src={logoImg} alt="" width={220} style={{ marginBottom: '20px' }} />
       <Form ref={formRef} onSubmit={handleSubmit}>
         <h1>Faça seu login</h1>
         <Input name="email" icon={FiMail} placeholder="E-mail"/>

@@ -19,10 +19,6 @@ export const HeaderContent = styled.div`
   margin: 0 auto;
   display: flex;
   align-items: center;
-
-  /* > img { */
-    /* estilizar logo */
-  /* } */
 `;
 
 export const ActionContent = styled.div`
@@ -111,7 +107,11 @@ export const Expenses = styled.aside`
 `;
 
 export const DayReminders = styled.div`
-  margin-top: 64px;
+  margin-top: 96px;
+
+  @media(max-width: 1200px) {
+    margin-top: 64px;
+  }
 `;
 
 export const ContainerTitle = styled.div`
@@ -145,8 +145,15 @@ export const ContainerTitle = styled.div`
 
 export const DayRemindersContent = styled.div`
   margin-top: 12px;
-  height: 368px;
+  max-height: 368px;
+  width: 585px !important;
   overflow-y: scroll;
+
+  h4 {
+    color: #28262e;
+    font-weight: 300;
+    font-size: 14px;
+  }
 `;
 
 export const ReminderContent = styled.div`
