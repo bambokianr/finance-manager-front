@@ -63,6 +63,60 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, onClose = 
       InsertEvent(data.value, data.description, data.reminderDate);
     }
 
+    const {token} = useAuth();
+    
+    Axios({
+      method: 'post',
+      url: 'http://financemanagerces26back.herokuapp.com/expense',
+      //url: 'http://localhost:3333/expense',
+      withCredentials: true,
+      data: {
+        id: token,
+        date: data.date,
+        value: data.value,
+        description: data.description,
+        reminderCreated: data.reminderDate,
+        tag: data.tag,
+        paid: data.expensePaid,
+      }
+    })
+    .then(function(response) {
+      console.log(response)
+    });
+
+
+    /*Axios({
+      method: 'post',
+      url: 'http://financemanagerces26back.herokuapp.com/user/login',
+      //url: 'http://localhost:3333/user/login',
+      withCredentials: 'include',
+      data: {
+        email: 'leo71.gomes@gmail.com',
+        password: '123456',
+      },
+    })
+    .then(function(response){
+      console.log(response);
+      Axios({
+        method: 'post',
+        url: 'http://financemanagerces26back.herokuapp.com/expense',
+        //url: 'http://localhost:3333/expense',
+        withCredentials: true,
+        data: {
+          id: token,
+          date: data.date,
+          value: data.value,
+          description: data.description,
+          reminderCreated: data.reminderDate,
+          tag: data.tag,
+          paid: data.expensePaid,
+        }
+      })
+      .then(function(response) {
+        console.log(response)
+      });
+    });*/
+
 
   }, [onClose]);
 
