@@ -72,6 +72,7 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, onClose = 
             {(!createNewTag) ? 
               <ContainerInputWithIcon>
                 <Select 
+                  name="tag"
                   nullValue="all"
                   nullOption="Selecionar tag"
                   dataOptions={tags}
