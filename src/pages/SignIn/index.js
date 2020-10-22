@@ -38,8 +38,8 @@ function SignIn() {
       
       history.push('/dashboard');
     } catch(err) {
-      // const errors = getValidationErrors(err);
-      // formRef.current.setErrors(errors);
+      const errors = getValidationErrors(err);
+      formRef.current.setErrors(errors);
     }
   }, [signIn, history]);
 

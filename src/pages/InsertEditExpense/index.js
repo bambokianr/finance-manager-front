@@ -65,7 +65,7 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, tagsToSele
       .catch(err => {
         console.log('[ERR - createExpense]', err);
       });
-  }, [createNewTag, token]);
+  }, [token]);
 
   const editExpense = useCallback(async (data) => {
     const dataToSend = { 
