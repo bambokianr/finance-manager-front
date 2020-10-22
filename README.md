@@ -1,12 +1,25 @@
-- styled-components
-- unform: lib que evita que a cada atualização de um campo do formulário salvo em um estado, o componente seja renderizado novamente
-- yup: validação de dados (vindos dos formulários)
-- axios: cliente HTTP para consumo de api backend
-- react-router-dom: lidar com rotas da aplicação
+## **CES-26: [front-end] Projeto exploratório**
+> Alunos: 
+> Leo Gomes - COMP21
+> Pedro Alves - COMP21
+> Rafaella Bambokian - COMP21
 
-context API -> guardar estados globais importantes para vários componentes da aplicação
-local storage -> armazenamento de infos mesmo com refresh da pag
-useCallback -> forma de criar funções dentro do componente que não são recriadas na memória toda vez que o componente atualiza (são memorizadas)
-uso de media queries para tornar o dashboard minimamente responsivo
+### :bangbang: Proposta
+Dashboard para gestão de gastos pessoais
+- gráfico de gastos com possibilidade de filtros para visualização dos dados
+- integração Google Calendar para visualização/criação/remoção/atualização de lembretes financeiros
+- formulário para criação/remoção/atualização de dados financeiros
+- organização dos gastos em tags definidas pelo usuário
 
-Obs: para edição de gastos, usar no componente Form a propriedade initialData={{ alguma: 'coisa' }}, sendo que 'alguma' é o name do input
+### :computer: Desenvolvimento
+Principais módulos auxiliares ao desenvolvimento front-end do projeto.
+- create-react-app - configuração inicial do ambiente do projeto
+- context API - gerenciamento de estados globais da aplicação
+- styled-components - biblioteca de estilos que permite escrever código css em arquivos JavaScript
+- unform - biblioteca para criação de formulários focada em performance, evitando a renderização de cada componente com a atualização de campos de inserção de dados
+- yup - biblioteca para validação de dados (vindos de inputs de formulários)
+- react-router-dom - biblioteca que facilita a manipulação de rotas da aplicação
+- recharts - biblioteca para visualização de dados em gráficos
+- axios - cliente HTTP para consumo de api backend
+- local storage - armazenamento de informações simples do contexto do usuário no browser do cliente
+- media queries - uso para tornar dashboard responsivo 
