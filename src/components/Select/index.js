@@ -26,7 +26,6 @@ function Select({ name, nullValue, nullOption, dataOptions, onChangeOption = () 
     });
   }, [fieldName, registerField]);
 
-  console.log('dataOptions', dataOptions);
   return (
     <Container>
       <FiArrowDown />

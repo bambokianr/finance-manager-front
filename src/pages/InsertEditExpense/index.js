@@ -48,26 +48,27 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, onClose = 
   };
 
   async function createExpense(data) {
-    console.log('CREATE EXPENSE!');
-    await api.post(`/expense`, { token, ...data })
-    // await api.post(`/expense?token=${token}`, data)
-    .then(res => {
-      console.log('res', res);
-    })
-    .catch(err => {
-      console.log('[ERR - createExpense]', err);
-    });
+    const dataToSend = { token, ...data, value: Number.parseFloat(data.value) };
+    await api.post('/expense', dataToSend)
+      .then(res => {
+        console.log('CREATE EXPENSE 2!');
+        console.log('res', res);
+      })
+      .catch(err => {
+        console.log('[ERR - createExpense]', err);
+      });
   };
 
   async function editExpense(data) {
-    console.log('EDIT EXPENSE!');
-    await api.put(`/expense?token=${token}`, data)
-    .then(res => {
-      console.log('res', res);
-    })
-    .catch(err => {
-      console.log('[ERR - editExpense]', err);
-    });
+    const dataToSend = { token, ...data, value: Number.parseFloat(data.value) };
+    console.log('EDIT EXPENSE!', dataToSend);
+    await api.put('/expense', dataToSend)
+      .then(res => {
+        console.log('res', res);
+      })
+      .catch(err => {
+        console.log('[ERR - editExpense]', err);
+      });
   };
 
   useEffect(() => {
