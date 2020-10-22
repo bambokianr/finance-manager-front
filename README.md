@@ -2,6 +2,9 @@
 > Alunos: 
 > Leo Gomes, Pedro Alves e Rafaella Bambokian - COMP21
 
+![til](./assets/prj_front.gif)
+_Overview do projeto_
+
 ### :bangbang: Proposta
 Dashboard para gestão de gastos pessoais
 - gráfico de gastos com possibilidade de filtros para visualização dos dados
