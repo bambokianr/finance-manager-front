@@ -21,3 +21,6 @@ Principais módulos auxiliares ao desenvolvimento front-end do projeto.
 - axios - cliente HTTP para consumo de api backend
 - local storage - armazenamento de informações simples do contexto do usuário no browser do cliente
 - media queries - uso para tornar dashboard responsivo 
+
+** deploy no serviço Netlify - para aplicações estáticas. [Clique aqui]() para acessar a aplicação.
+
