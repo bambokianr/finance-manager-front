@@ -85,7 +85,6 @@ export const Overview = styled.div`
   }
 
   p {
-    margin-top: 8px;
     color: #ff9000;
 
     span + span {

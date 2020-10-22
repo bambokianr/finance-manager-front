@@ -30,14 +30,12 @@ function SignUp() {
       });
       await schema.validate(data, { abortEarly: false });
       
-      // const response = await api.post('/user', data);
-      // const response = await api.post('/user', data, { credentials: 'include' });
-      const response = await api.post('/user', data, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }, crossDomain: true });
+      const response = await api.post('/user', data);
       console.log('RESPONSE', response);
       history.push('/');
     } catch(err) {
-      // const errors = getValidationErrors(err);
-      // formRef.current.setErrors(errors);
+      const errors = getValidationErrors(err);
+      formRef.current.setErrors(errors);
     }
   }, [history]);
 

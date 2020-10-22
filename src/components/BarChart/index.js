@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { BarChart as Chart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
+import { formatDateToChart } from '../../utils/formatDate';
+
 import ChartSelect from '../../components/ChartSelect';
 
 import { Container, SelectContainer, YAxisLabel, CustomTooltipContainer } from './styles';
@@ -21,18 +23,27 @@ const CustomTooltip = ({ active, payload, label }) => {
 function BarChart({ filterOptions, data = [] }) {
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [chartData, setChartData] = useState(data);
-  
+  console.log('data', data);
+
   const handleFilter = useCallback((optionValue) => {
     setSelectedFilter(optionValue);
   }, []);
 
   useEffect(() => {
+    setChartData(data);
+  }, [data]);
+
+  useEffect(() => {
+    //! editar date dos dados
+    let editedData = [];
+    data.map(dataToEdit => editedData.push({...dataToEdit, date: formatDateToChart(dataToEdit.date) }));
+
     //! filtrar dados
     let filteredData = [];
     if(selectedFilter !== 'all') {
-      filteredData = data.filter(data => data.tag === selectedFilter);
+      filteredData = editedData.filter(data => data.tag === selectedFilter);
     } else { 
-      filteredData = data;
+      filteredData = editedData;
     }
 
     //! agrupar dados
@@ -52,10 +63,12 @@ function BarChart({ filterOptions, data = [] }) {
     });
 
     //! ordenar dados por data
-
+    groupedData.sort((a, b) => {
+      return (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0);
+    });
     
     setChartData(groupedData); 
-  }, [selectedFilter, data]);
+  }, [data, selectedFilter]);
 
   return (
     <Container>

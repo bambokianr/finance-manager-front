@@ -30,7 +30,7 @@ function ChartSelect({ nullValue, nullOption, dataOptions, onChangeOption = () =
       >
         <option value={nullValue}>{nullOption}</option>
         {dataOptions.map(data => 
-          <option key={data} value={data}>{data}</option> 
+          <option key={data.tag} value={data.tag}>{data.tag}</option> 
         )} 
       </SelectContainer>
     </Container>
