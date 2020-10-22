@@ -10,24 +10,27 @@ import { FiTag, FiEdit3, FiTrash2 } from 'react-icons/fi';
 
 import { Container, ContainerTitle, ExpenseContent, AllExpensesContent, InfosExpense, ActionsContent } from './styles';
 
-function ShowAllExpenses({ expenses, onClose = () => {} }) {
+function ShowAllExpenses({ expenses, tagsToSelect, onClose = () => {} }) {
   const [expenseToEdit, setExpenseToEdit] = useState(null);
   const { token } = useAuth();
 
-  async function deleteExpense(id) {
-    await api.delete(`/expense?token=${token}`, { id })
-    .then(res => {
-      console.log('res', res);
-    })
-    .catch(err => {
-      console.log('[ERR - deleteExpense]', err);
-    });
+  async function deleteExpense(id_expense) {
+    console.log('deleteExpense', id_expense);
+    await api.delete('/expense', { token, id_expense })
+      .then(res => {
+        console.log('res', res);
+      })
+      .catch(err => {
+        console.log('[ERR - deleteExpense]', err);
+      });
   };
 
   const handleEditExpense = useCallback((expense) => {
+    console.log('expense to edit', expense);
     setExpenseToEdit(expense);
   }, []);
 
+  console.log('expenses', expenses);
   return (
     <>
       {!expenseToEdit ?
@@ -37,7 +40,7 @@ function ShowAllExpenses({ expenses, onClose = () => {} }) {
           </ContainerTitle>
           <AllExpensesContent>
             {expenses && expenses.map(expense => 
-              <ExpenseContent key={expense.id}>
+              <ExpenseContent key={expense.id_expense}>
                 <InfosExpense>
                   <h1>{expense.description}</h1>
                   {expense?.tag && <span>
@@ -51,7 +54,7 @@ function ShowAllExpenses({ expenses, onClose = () => {} }) {
                 </InfosExpense>
                 <ActionsContent>
                   <button type="button" onClick={() => handleEditExpense(expense)}><FiEdit3 /></button>
-                  <button type="button" onClick={() => deleteExpense(expense.id)}><FiTrash2 /></button>
+                  <button type="button" onClick={() => deleteExpense(expense.id_expense)}><FiTrash2 /></button>
                 </ActionsContent>
               </ExpenseContent>
             )}
@@ -59,6 +62,7 @@ function ShowAllExpenses({ expenses, onClose = () => {} }) {
         </Container>
       : 
         <InsertEditExpense 
+          tagsToSelect={tagsToSelect}
           isEdit={true}
           expenseToEdit={expenseToEdit}
           expenses={expenses}

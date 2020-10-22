@@ -3,7 +3,6 @@ import { Form } from '@unform/web';
 import * as Yup from 'yup';
 import getValidationErrors from '../../utils/getValidationErrors';
 import { GrSubtractCircle, GrAddCircle } from 'react-icons/gr';
-import { tags as mockTags } from '../../utils/mocks';
 
 import Input from '../../components/Input';
 import Select from '../../components/Select';
@@ -17,7 +16,7 @@ import api from '../../services/api';
 
 import { Container, ContainerInputWithIcon } from './styles';
 
-function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, onClose = () => {} }) {
+function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, tagsToSelect, onClose = () => {} }) {
   const [createNewTag, setCreateNewTag] = useState(false);
   const [isExpensePaid, setIsExpensePaid] = useState(false);
   const [addRemember, setAddRemember] = useState(false);
@@ -32,26 +31,12 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, onClose = 
       setSelectedOptionValue(expenseToEdit?.tag);
     if(!!expenseToEdit?.paid) 
       setIsExpensePaid(expenseToEdit?.paid);
-    if(!!expenseToEdit?.reminderCreated) //! se nao é null
+    if(!!expenseToEdit?.remindercreated) //! se nao é null
       setAddRemember(true);
   }, [expenseToEdit]);
 
-  async function getTags() {
-    await api.get(`/tag?token=${token}`)
-      .then(res => {
-        console.log('[RES - getTags]', res);
-        setTags(res.data);
-      })
-      .catch(err => {
-        console.log('[ERR - getTags]', err);
-      });
-  };
-
-  // useEffect(() => {console.log('createNewTag', createNewTag)}, [createNewTag]);
-
-  async function createExpense(data) {
+  const createExpense = useCallback(async (data) => {
     if(!!createNewTag) {
-      
       await api.post('tag', { token, tag: data.tag })
         .then(res => {
           console.log('criar tag', res);
@@ -61,32 +46,52 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, onClose = 
         });
     }
 
-    const dataToSend = { token, ...data, value: Number.parseFloat(data.value) };
+    const dataToSend = { 
+      token, 
+      id_user: token, 
+      tag: data.tag,
+      description: data.description,
+      date: data.date,
+      value: Number.parseFloat(data.value),
+      paid: data.paid,
+      remindercreated: !!data.addReminder ? data.reminderDate : null,
+    };
+    
     console.log('CREATE EXPENSE!', dataToSend);
     await api.post('/expense', dataToSend)
       .then(res => {
-        console.log('res', res);
+        console.log('[RES - createExpense]', res);
       })
       .catch(err => {
         console.log('[ERR - createExpense]', err);
       });
-  };
+  }, [createNewTag, token]);
 
-  async function editExpense(data) {
-    const dataToSend = { token, ...data, value: Number.parseFloat(data.value) };
-    console.log('EDIT EXPENSE!', dataToSend);
+  const editExpense = useCallback(async (data) => {
+    const dataToSend = { 
+      token, 
+      id_user: token, 
+      id_expense: expenseToEdit.id_expense,
+      tag: data.tag,
+      description: data.description,
+      date: data.date,
+      value: Number.parseFloat(data.value),
+      paid: data.paid,
+      remindercreated: !!data.addReminder ? data.reminderDate : null,
+    };
+
     await api.put('/expense', dataToSend)
       .then(res => {
-        console.log('res', res);
+        console.log('[RES - editExpense]', res);
       })
       .catch(err => {
         console.log('[ERR - editExpense]', err);
       });
-  };
+  }, [token]);
 
   useEffect(() => {
-    getTags();
-  }, []);
+    setTags(tagsToSelect);
+  }, [tagsToSelect]);
 
   const onChangeOption = useCallback((optionValue) => {
     optionValue === "all" ? setSelectedOptionValue(null) : setSelectedOptionValue(optionValue);
@@ -114,7 +119,7 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, onClose = 
     if (data.addRemember) {
       InsertEvent(data.value, data.description, data.reminderDate);
     }
-  }, [onClose, createNewTag]);
+  }, [onClose, createExpense, editExpense, isEdit]);
 
   return (
     <>
@@ -141,10 +146,10 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, onClose = 
               </ContainerInputWithIcon>
             }
             <Input name="description" placeholder="Descrição" defaultValue={expenseToEdit?.description} />
-            <Input name="date" type="date" defaultValue={expenseToEdit?.date} />
+            <Input name="date" type="date" defaultValue={expenseToEdit?.date?.split('T')[0]} />
             <Input name="value" placeholder="Valor: 0,00" defaultValue={expenseToEdit?.value} />
             <Checkbox 
-              name="expensePaid" 
+              name="paid" 
               label="Despesa paga" 
               isChecked={isExpensePaid}
               setIsChecked={() => setIsExpensePaid(!isExpensePaid)}
@@ -157,7 +162,7 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, onClose = 
                   isChecked={addRemember}
                   setIsChecked={() => setAddRemember(!addRemember)}
                 />
-                {!!addRemember && <Input name="reminderDate" type="date" defaultValue={expenseToEdit?.reminderCreated} />}
+                {!!addRemember && <Input name="reminderDate" type="date" defaultValue={expenseToEdit?.remindercreated} />}
               </>
             } 
             <Button type="submit">{isEdit ? 'Salvar alterações' : 'Inserir'}</Button>
@@ -165,7 +170,7 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, onClose = 
           {isEdit && <Button type="return" onClick={() => setShowAll(true)}>Voltar</Button>}
         </Container>
       :
-        <ShowAllExpenses expenses={expenses} onClose={onClose} />
+        <ShowAllExpenses tagsToSelect={tagsToSelect} expenses={expenses} onClose={onClose} />
       }
     </>
   );

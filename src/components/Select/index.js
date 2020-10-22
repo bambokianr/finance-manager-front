@@ -25,7 +25,7 @@ function Select({ name, nullValue, nullOption, dataOptions, onChangeOption = () 
       path: 'value'
     });
   }, [fieldName, registerField]);
-
+  
   return (
     <Container>
       <FiArrowDown />

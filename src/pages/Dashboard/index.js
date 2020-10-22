@@ -9,7 +9,6 @@ import OpenCalendar from '../../components/GoogleCalendar/openCalendar';
 import logoImg from '../../assets/logoicon.png';
 import { useAuth } from '../../hooks/AuthContext';
 import formatDate from '../../utils/formatDate';
-import { expenses, tags as tagMocks } from '../../utils/mocks';
 import api from '../../services/api';
 
 import { FiCalendar, FiEdit, FiPower, FiPlusSquare } from 'react-icons/fi';
@@ -90,20 +89,18 @@ function Dashboard() {
       getTags();
       getExpensesChartData();
     }
-
-    // setAllExpenses(expenses);
   }, [isModalInsertExpenseVisible, isModalShowAllExpensesVisible]);
 
   return (
     <Container isModal={!!isModalInsertExpenseVisible || !!isModalShowAllExpensesVisible}>
       {isModalInsertExpenseVisible && 
         <Modal onClose={() => setIsModalInsertExpenseVisible(false)}>
-          <InsertEditExpense onClose={() => setIsModalInsertExpenseVisible(false)} />
+          <InsertEditExpense tagsToSelect={tags} onClose={() => setIsModalInsertExpenseVisible(false)} />
         </Modal>
       }
       {isModalShowAllExpensesVisible && 
         <Modal onClose={() => setIsModalShowAllExpensesVisible(false)}>
-          <ShowAllExpenses expenses={allExpenses} onClose={() => setIsModalShowAllExpensesVisible(false)} />
+          <ShowAllExpenses tagsToSelect={tags} expenses={allExpenses} onClose={() => setIsModalShowAllExpensesVisible(false)} />
         </Modal>
       }
       <Header>
