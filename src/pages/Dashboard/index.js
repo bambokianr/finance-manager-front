@@ -37,8 +37,8 @@ function Dashboard() {
     //! LEMBRETES DO DIA: [GET /expenses] -> query param = data do dia
     await api.get(`/expense?token=${token}`)
       .then(res => {
-        console.log('res', res);
-        // setDayRemindersData(expenses);
+        console.log('[RES - getDayExpenses]', res);
+        setDayRemindersData(res.data);
       })
       .catch(err => {
         console.log('[ERR - getDayExpenses]', err);
@@ -49,8 +49,8 @@ function Dashboard() {
     //! LEMBRETES DO DIA: [GET /expenses] -> query param = data do dia
     await api.get(`/expense?token=${token}`)
       .then(res => {
-        console.log('res', res);
-        // setAllExpenses(expenses);
+        console.log('[RES - getAllExpenses]', res);
+        setAllExpenses(res.data);
       })
       .catch(err => {
         console.log('[ERR - getAllExpenses]', err);
@@ -59,7 +59,6 @@ function Dashboard() {
 
   async function getTags() {
     //! OVERVIEW SEMANAL: [GET /tags]
-    // await api.get(`/tag?token=${token}`, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }})
     await api.get(`/tag?token=${token}`)
       .then(res => {
         console.log('[RES - getTags]', res);
@@ -72,10 +71,10 @@ function Dashboard() {
 
   async function getExpensesChartData() {
     //! OVERVIEW SEMANAL: [GET /expensesToChart]
-    await api.get(`/expensesToChart?token=${token}`)
+    await api.get(`/expensestochart?token=${token}`)
       .then(res => {
-        console.log('res', res);
-        // setExpensesChartData(expenses);
+        console.log('[RES - getExpensesChartData]', res);
+        setExpensesChartData(res.data);
       })
       .catch(err => {
         console.log('[ERR - getExpensesChartData]', err);
@@ -89,8 +88,8 @@ function Dashboard() {
     getExpensesChartData();
 
 
-    setAllExpenses(expenses);
-  }, []);
+    // setAllExpenses(expenses);
+  }, [isModalInsertExpenseVisible, isModalShowAllExpensesVisible]);
 
   return (
     <Container isModal={!!isModalInsertExpenseVisible || !!isModalShowAllExpensesVisible}>

@@ -47,11 +47,24 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, onClose = 
       });
   };
 
+  // useEffect(() => {console.log('createNewTag', createNewTag)}, [createNewTag]);
+
   async function createExpense(data) {
+    if(!!createNewTag) {
+      
+      await api.post('tag', { token, tag: data.tag })
+        .then(res => {
+          console.log('criar tag', res);
+        })
+        .catch(err => {
+          console.log('[ERR - createTag]', err);
+        });
+    }
+
     const dataToSend = { token, ...data, value: Number.parseFloat(data.value) };
+    console.log('CREATE EXPENSE!', dataToSend);
     await api.post('/expense', dataToSend)
       .then(res => {
-        console.log('CREATE EXPENSE 2!');
         console.log('res', res);
       })
       .catch(err => {
@@ -72,7 +85,7 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, onClose = 
   };
 
   useEffect(() => {
-    getTags();
+    // getTags();
   }, []);
 
   const onChangeOption = useCallback((optionValue) => {
@@ -89,6 +102,7 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, onClose = 
       });
       
       console.log('DATA', data);
+      console.log('aaaaaa', createNewTag);
       //! TRANSFORMAR 'value' PARA number ANTES DE ENVIAR AO BACKEND
       !!isEdit ? editExpense(data) : createExpense(data);
 
@@ -102,7 +116,7 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, onClose = 
     if (data.addRemember) {
       InsertEvent(data.value, data.description, data.reminderDate);
     }
-  }, [onClose]);
+  }, [onClose, createNewTag]);
 
   return (
     <>
@@ -110,7 +124,7 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, onClose = 
         <Container>
           <Form ref={formRef} onSubmit={handleSubmit}>
             <h1>{isEdit ? 'Edite sua despesa' : 'Insira sua despesa'}</h1>
-            {(!createNewTag) ? 
+            {!createNewTag ? 
               <ContainerInputWithIcon>
                 <Select 
                   name="tag"
