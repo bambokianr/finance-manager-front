@@ -16,7 +16,7 @@ import api from '../../services/api';
 
 import { Container, ContainerInputWithIcon } from './styles';
 
-function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, tagsToSelect, onClose = () => {} }) {
+function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, tagsToSelect, update = () => {}, onClose = () => {} }) {
   const [createNewTag, setCreateNewTag] = useState(false);
   const [isExpensePaid, setIsExpensePaid] = useState(false);
   const [addRemember, setAddRemember] = useState(false);
@@ -171,7 +171,12 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, tagsToSele
           {isEdit && <Button type="return" onClick={() => setShowAll(true)}>Voltar</Button>}
         </Container>
       :
-        <ShowAllExpenses tagsToSelect={tagsToSelect} expenses={expenses} onClose={onClose} />
+        <ShowAllExpenses 
+          tagsToSelect={tagsToSelect} 
+          expenses={expenses} 
+          update={update}
+          onClose={onClose} 
+        />
       }
     </>
   );

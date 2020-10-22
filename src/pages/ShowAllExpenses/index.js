@@ -10,7 +10,7 @@ import { FiTag, FiEdit3, FiTrash2 } from 'react-icons/fi';
 
 import { Container, ContainerTitle, ExpenseContent, AllExpensesContent, InfosExpense, ActionsContent } from './styles';
 
-function ShowAllExpenses({ expenses, tagsToSelect, onClose = () => {} }) {
+function ShowAllExpenses({ expenses, tagsToSelect, update = () => {}, onClose = () => {} }) {
   const [expenseToEdit, setExpenseToEdit] = useState(null);
   const { token } = useAuth();
 
@@ -25,6 +25,7 @@ function ShowAllExpenses({ expenses, tagsToSelect, onClose = () => {} }) {
       .catch(err => {
         console.log('[ERR - deleteExpense]', err);
       });
+      update();
   };
 
   const handleEditExpense = useCallback((expense) => {
@@ -68,6 +69,7 @@ function ShowAllExpenses({ expenses, tagsToSelect, onClose = () => {} }) {
           isEdit={true}
           expenseToEdit={expenseToEdit}
           expenses={expenses}
+          update={update}
           onClose={onClose}
         /> 
       }

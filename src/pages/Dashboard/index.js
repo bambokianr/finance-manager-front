@@ -11,7 +11,7 @@ import { useAuth } from '../../hooks/AuthContext';
 import { formatDate } from '../../utils/formatDate';
 import api from '../../services/api';
 
-import { FiCalendar, FiEdit, FiPower, FiPlusSquare } from 'react-icons/fi';
+import { FiCalendar, FiEdit, FiPower, FiPlusSquare, FiTag } from 'react-icons/fi';
 import { FaRegMoneyBillAlt } from 'react-icons/fa';
 
 import { Container, Header, HeaderContent, Profile, ActionContent, Content, Overview, DayReminders, ContainerTitle, DayRemindersContent, ReminderContent, Expenses } from './styles';
@@ -23,6 +23,7 @@ function Dashboard() {
   const [tags, setTags] = useState([]);
   const [allExpenses, setAllExpenses] = useState([]);
   const [expensesChartData, setExpensesChartData] = useState([]);
+  const [updateGetData, setUpdateGetData] = useState(false);
   const { signOut, user, token } = useAuth();
 
   const createExpense = useCallback(() => {
@@ -85,23 +86,42 @@ function Dashboard() {
 
   useEffect(() => {
     if(!isModalInsertExpenseVisible && !isModalShowAllExpensesVisible) {
-      getDayExpenses();
-      getAllExpenses();
-      getTags();
-      getExpensesChartData();
-    }
+      const timer = setTimeout(() => {
+        getDayExpenses();
+        getAllExpenses();
+        getTags();
+        getExpensesChartData();
+      }, 1000);
+      return () => clearTimeout(timer);
+    }    
   }, [isModalInsertExpenseVisible, isModalShowAllExpensesVisible, getAllExpenses, getDayExpenses, getExpensesChartData, getTags]);
+
+  useEffect(() => {
+    getDayExpenses();
+    getAllExpenses();
+    getTags();
+    getExpensesChartData();
+  }, [updateGetData]);
 
   return (
     <Container isModal={!!isModalInsertExpenseVisible || !!isModalShowAllExpensesVisible}>
       {isModalInsertExpenseVisible && 
         <Modal onClose={() => setIsModalInsertExpenseVisible(false)}>
-          <InsertEditExpense tagsToSelect={tags} onClose={() => setIsModalInsertExpenseVisible(false)} />
+          <InsertEditExpense 
+            tagsToSelect={tags} 
+            update={() => setUpdateGetData(!updateGetData)} 
+            onClose={() => setIsModalInsertExpenseVisible(false)} 
+          />
         </Modal>
       }
       {isModalShowAllExpensesVisible && 
         <Modal onClose={() => setIsModalShowAllExpensesVisible(false)}>
-          <ShowAllExpenses tagsToSelect={tags} expenses={allExpenses} onClose={() => setIsModalShowAllExpensesVisible(false)} />
+          <ShowAllExpenses 
+            tagsToSelect={tags} 
+            expenses={allExpenses} 
+            update={() => setUpdateGetData(!updateGetData)} 
+            onClose={() => setIsModalShowAllExpensesVisible(false)} 
+          />
         </Modal>
       }
       <Header>
@@ -133,9 +153,13 @@ function Dashboard() {
             </ContainerTitle>
             <DayRemindersContent>
               {dayRemindersData.length === 0 && <h4>Você não possui lembretes para hoje!</h4>}
-              {dayRemindersData.map(({ id_expense, description, value }) => 
+              {dayRemindersData.map(({ id_expense, description, tag, value }) => 
                 <ReminderContent key={id_expense}>
                   <p>{description}</p>
+                  <span>
+                    <FiTag />
+                    {tag}
+                  </span>
                   <span>
                     <FaRegMoneyBillAlt />
                     {`R$ ${value.toFixed(2)}`}

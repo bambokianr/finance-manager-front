@@ -23,7 +23,6 @@ const CustomTooltip = ({ active, payload, label }) => {
 function BarChart({ filterOptions, data = [] }) {
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [chartData, setChartData] = useState(data);
-  console.log('data', data);
 
   const handleFilter = useCallback((optionValue) => {
     setSelectedFilter(optionValue);
