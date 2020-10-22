@@ -33,44 +33,44 @@ function Dashboard() {
     setIsModalShowAllExpensesVisible(true);
   }, []);
 
-  async function getDayExpenses() {
-    //! LEMBRETES DO DIA: [GET /expenses] -> query param = data do dia
-    const today = formatDate(new Date());
-    await api.get(`/expense?token=${token}&reminderCreated=${today}`)
-      .then(res => {
-        console.log('[RES - getDayExpenses]', res);
-        setDayRemindersData(res.data);
-      })
-      .catch(err => {
-        console.log('[ERR - getDayExpenses]', err);
-      });
-  };
+  const getDayExpenses = useCallback(async () => {
+  //! LEMBRETES DO DIA: [GET /expenses] -> query param = data do dia
+  const today = formatDate(new Date());
+  await api.get(`/expense?token=${token}&reminderCreated=${today}`)
+    .then(res => {
+      console.log('[RES - getDayExpenses]', res);
+      setDayRemindersData(res.data);
+    })
+    .catch(err => {
+      console.log('[ERR - getDayExpenses]', err);
+    });
+  }, [token]);
 
-  async function getAllExpenses() {
+  const getAllExpenses = useCallback(async () => {
     //! LEMBRETES DO DIA: [GET /expenses] -> query param = data do dia
     await api.get(`/expense?token=${token}`)
-      .then(res => {
-        console.log('[RES - getAllExpenses]', res);
-        setAllExpenses(res.data);
-      })
-      .catch(err => {
-        console.log('[ERR - getAllExpenses]', err);
-      });
-  };
+    .then(res => {
+      console.log('[RES - getAllExpenses]', res);
+      setAllExpenses(res.data);
+    })
+    .catch(err => {
+      console.log('[ERR - getAllExpenses]', err);
+    });
+  }, [token]);
 
-  async function getTags() {
+  const getTags = useCallback(async () => {
     //! OVERVIEW SEMANAL: [GET /tags]
     await api.get(`/tag?token=${token}`)
-      .then(res => {
-        console.log('[RES - getTags]', res);
-        setTags(res.data);
-      })
-      .catch(err => {
-        console.log('[ERR - getTags]', err);
-      });
-  };
+    .then(res => {
+      console.log('[RES - getTags]', res);
+      setTags(res.data);
+    })
+    .catch(err => {
+      console.log('[ERR - getTags]', err);
+    });
+  }, [token]);
 
-  async function getExpensesChartData() {
+  const getExpensesChartData = useCallback(async () => {
     console.log('getExpensesChartData');
     //! OVERVIEW SEMANAL: [GET /expensesToChart]
     await api.get(`/expensestochart?token=${token}`)
@@ -81,7 +81,7 @@ function Dashboard() {
       .catch(err => {
         console.log('[ERR - getExpensesChartData]', err);
       });
-  };
+  }, [token]);
 
   useEffect(() => {
     if(!isModalInsertExpenseVisible && !isModalShowAllExpensesVisible) {
@@ -90,7 +90,7 @@ function Dashboard() {
       getTags();
       getExpensesChartData();
     }
-  }, [isModalInsertExpenseVisible, isModalShowAllExpensesVisible]);
+  }, [isModalInsertExpenseVisible, isModalShowAllExpensesVisible, getAllExpenses, getDayExpenses, getExpensesChartData, getTags]);
 
   return (
     <Container isModal={!!isModalInsertExpenseVisible || !!isModalShowAllExpensesVisible}>

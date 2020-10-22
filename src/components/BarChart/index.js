@@ -36,9 +36,7 @@ function BarChart({ filterOptions, data = [] }) {
   useEffect(() => {
     //! editar date dos dados
     let editedData = [];
-    data.map(dataToEdit => {
-      editedData.push({...dataToEdit, date: formatDateToChart(dataToEdit.date) });
-    });
+    data.map(dataToEdit => editedData.push({...dataToEdit, date: formatDateToChart(dataToEdit.date) }));
 
     //! filtrar dados
     let filteredData = [];
