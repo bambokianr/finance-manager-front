@@ -46,7 +46,7 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, tagsToSele
         });
     }
 
-    console.log(data.addReminder);
+    console.log(data.addRemember);
     const dataToSend = { 
       token, 
       id_user: token, 
@@ -55,7 +55,7 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, tagsToSele
       date: data.date,
       value: Number.parseFloat(data.value),
       paid: data.paid,
-      remindercreated: data.addReminder ? data.reminderDate : null,
+      remindercreated: data.addRemember ? data.reminderDate : null,
     };
     
     console.log('CREATE EXPENSE!', dataToSend);
@@ -78,7 +78,7 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, tagsToSele
       date: data.date,
       value: Number.parseFloat(data.value),
       paid: data.paid,
-      remindercreated: data.addReminder ? data.reminderDate : null,
+      remindercreated: data.addRemember ? data.reminderDate : null,
     };
 
     await api.put('/expense', dataToSend)
