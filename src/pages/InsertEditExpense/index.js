@@ -46,6 +46,7 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, tagsToSele
         });
     }
 
+    console.log(data.addReminder);
     const dataToSend = { 
       token, 
       id_user: token, 
@@ -54,7 +55,7 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, tagsToSele
       date: data.date,
       value: Number.parseFloat(data.value),
       paid: data.paid,
-      remindercreated: !!data.addReminder ? data.reminderDate : null,
+      remindercreated: data.addReminder ? data.reminderDate : null,
     };
     
     console.log('CREATE EXPENSE!', dataToSend);
@@ -77,7 +78,7 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, tagsToSele
       date: data.date,
       value: Number.parseFloat(data.value),
       paid: data.paid,
-      remindercreated: !!data.addReminder ? data.reminderDate : null,
+      remindercreated: data.addReminder ? data.reminderDate : null,
     };
 
     await api.put('/expense', dataToSend)
@@ -87,7 +88,7 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, tagsToSele
       .catch(err => {
         console.log('[ERR - editExpense]', err);
       });
-  }, [token]);
+  }, [token, expenseToEdit]);
 
   useEffect(() => {
     setTags(tagsToSelect);
