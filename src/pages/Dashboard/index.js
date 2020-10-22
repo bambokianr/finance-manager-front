@@ -8,6 +8,7 @@ import BarChart from '../../components/BarChart';
 import OpenCalendar from '../../components/GoogleCalendar/openCalendar';
 import logoImg from '../../assets/logoicon.png';
 import { useAuth } from '../../hooks/AuthContext';
+import formatDate from '../../utils/formatDate';
 import { expenses, tags as tagMocks } from '../../utils/mocks';
 import api from '../../services/api';
 
@@ -35,7 +36,8 @@ function Dashboard() {
 
   async function getDayExpenses() {
     //! LEMBRETES DO DIA: [GET /expenses] -> query param = data do dia
-    await api.get(`/expense?token=${token}`)
+    const today = formatDate(new Date());
+    await api.get(`/expense?token=${token}&reminderCreated=${today}`)
       .then(res => {
         console.log('[RES - getDayExpenses]', res);
         setDayRemindersData(res.data);
@@ -82,11 +84,12 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    getDayExpenses();
-    getAllExpenses();
-    getTags();
-    getExpensesChartData();
-
+    if(!isModalInsertExpenseVisible && !isModalShowAllExpensesVisible) {
+      getDayExpenses();
+      getAllExpenses();
+      getTags();
+      getExpensesChartData();
+    }
 
     // setAllExpenses(expenses);
   }, [isModalInsertExpenseVisible, isModalShowAllExpensesVisible]);

@@ -85,7 +85,7 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, onClose = 
   };
 
   useEffect(() => {
-    // getTags();
+    getTags();
   }, []);
 
   const onChangeOption = useCallback((optionValue) => {
@@ -102,8 +102,6 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, onClose = 
       });
       
       console.log('DATA', data);
-      console.log('aaaaaa', createNewTag);
-      //! TRANSFORMAR 'value' PARA number ANTES DE ENVIAR AO BACKEND
       !!isEdit ? editExpense(data) : createExpense(data);
 
       await schema.validate(data, { abortEarly: false });
