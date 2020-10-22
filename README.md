@@ -1,8 +1,6 @@
 ## **CES-26: [front-end] Projeto exploratório**
 > Alunos: 
-> Leo Gomes - COMP21
-> Pedro Alves - COMP21
-> Rafaella Bambokian - COMP21
+> Leo Gomes, Pedro Alves e Rafaella Bambokian - COMP21
 
 ### :bangbang: Proposta
 Dashboard para gestão de gastos pessoais
