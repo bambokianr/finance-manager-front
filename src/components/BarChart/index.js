@@ -56,7 +56,7 @@ function BarChart({ filterOptions, data = [] }) {
         groupedData.map(groupedObj => {
           if(groupedObj?.date === filteredObj?.date) {
             groupedObj.value += filteredObj.value;
-            groupedObj.value = groupedObj.value.toFixed(2);
+            groupedObj.value = Number.isInteger(groupedObj.value) ? groupedObj.value.toFixed(2) : groupedObj.value;
           }
         });
       }
