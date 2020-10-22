@@ -9,9 +9,9 @@ import Select from '../../components/Select';
 import Button from '../../components/Button';
 import Checkbox from '../../components/Checkbox';
 import ShowAllExpenses from '../ShowAllExpenses';
+import { useAuth } from '../../hooks/AuthContext';
 
 import InsertEvent from '../../components/GoogleCalendar/insertEvent';
-import { useAuth } from '../../hooks/AuthContext';
 import api from '../../services/api';
 
 import { Container, ContainerInputWithIcon } from './styles';
@@ -120,6 +120,7 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, tagsToSele
       InsertEvent(data.value, data.description, data.reminderDate);
     }
   }, [onClose, createExpense, editExpense, isEdit]);
+
 
   return (
     <>
