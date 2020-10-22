@@ -30,8 +30,10 @@ function SignUp() {
       });
       await schema.validate(data, { abortEarly: false });
       
-      const response = await api.post('/user', data);
-      console.log('RESPONSE', response);
+      await api.post('/user', data)
+        .then(res => console.log('[RES - create user]', res))
+        .catch(err => console.log('[ERR = create user]', err));
+        
       history.push('/');
     } catch(err) {
       const errors = getValidationErrors(err);

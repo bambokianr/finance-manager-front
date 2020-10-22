@@ -35,53 +35,40 @@ function Dashboard() {
   }, []);
 
   const getDayExpenses = useCallback(async () => {
-  //! LEMBRETES DO DIA: [GET /expenses] -> query param = data do dia
-  const today = formatDate(new Date());
-  await api.get(`/expense?token=${token}&reminderCreated=${today}`)
-    .then(res => {
-      console.log('[RES - getDayExpenses]', res);
-      setDayRemindersData(res.data);
-    })
-    .catch(err => {
-      console.log('[ERR - getDayExpenses]', err);
-    });
+    const today = formatDate(new Date());
+    await api.get(`/expense?token=${token}&reminderCreated=${today}`)
+      .then(res => {
+        console.log('[RES - getDayExpenses]', res);
+        setDayRemindersData(res.data);
+      })
+      .catch(err => console.log('[ERR - getDayExpenses]', err));
   }, [token]);
 
   const getAllExpenses = useCallback(async () => {
-    //! LEMBRETES DO DIA: [GET /expenses] -> query param = data do dia
     await api.get(`/expense?token=${token}`)
     .then(res => {
       console.log('[RES - getAllExpenses]', res);
       setAllExpenses(res.data);
     })
-    .catch(err => {
-      console.log('[ERR - getAllExpenses]', err);
-    });
+    .catch(err => console.log('[ERR - getAllExpenses]', err));
   }, [token]);
 
   const getTags = useCallback(async () => {
-    //! OVERVIEW SEMANAL: [GET /tags]
     await api.get(`/tag?token=${token}`)
     .then(res => {
       console.log('[RES - getTags]', res);
       setTags(res.data);
     })
-    .catch(err => {
-      console.log('[ERR - getTags]', err);
-    });
+    .catch(err => console.log('[ERR - getTags]', err));
   }, [token]);
 
   const getExpensesChartData = useCallback(async () => {
-    console.log('getExpensesChartData');
-    //! OVERVIEW SEMANAL: [GET /expensesToChart]
     await api.get(`/expensestochart?token=${token}`)
       .then(res => {
         console.log('[RES - getExpensesChartData]', res);
         setExpensesChartData(res.data);
       })
-      .catch(err => {
-        console.log('[ERR - getExpensesChartData]', err);
-      });
+      .catch(err => console.log('[ERR - getExpensesChartData]', err));
   }, [token]);
 
   useEffect(() => {
@@ -101,7 +88,7 @@ function Dashboard() {
     getAllExpenses();
     getTags();
     getExpensesChartData();
-  }, [updateGetData]);
+  }, [updateGetData, getAllExpenses, getDayExpenses, getExpensesChartData, getTags]);
 
   return (
     <Container isModal={!!isModalInsertExpenseVisible || !!isModalShowAllExpensesVisible}>

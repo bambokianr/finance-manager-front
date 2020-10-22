@@ -31,21 +31,11 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, tagsToSele
       setSelectedOptionValue(expenseToEdit?.tag);
     if(!!expenseToEdit?.paid) 
       setIsExpensePaid(expenseToEdit?.paid);
-    if(!!expenseToEdit?.remindercreated) //! se nao é null
+    if(!!expenseToEdit?.remindercreated)
       setAddRemember(true);
   }, [expenseToEdit]);
 
   const createExpense = useCallback(async (data) => {
-    // if(!!createNewTag) {
-    //   await api.post('tag', { token, tag: data.tag })
-    //     .then(res => {
-    //       console.log('criar tag', res);
-    //     })
-    //     .catch(err => {
-    //       console.log('[ERR - createTag]', err);
-    //     });
-    // }
-
     const dataToSend = { 
       token, 
       id_user: token, 
@@ -57,14 +47,9 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, tagsToSele
       remindercreated: data.addRemember ? data.reminderDate : null,
     };
     
-    console.log('CREATE EXPENSE!', dataToSend);
     await api.post('/expense', dataToSend)
-      .then(res => {
-        console.log('[RES - createExpense]', res);
-      })
-      .catch(err => {
-        console.log('[ERR - createExpense]', err);
-      });
+      .then(res => console.log('[RES - createExpense]', res))
+      .catch(err => console.log('[ERR - createExpense]', err));
   }, [token]);
 
   const editExpense = useCallback(async (data) => {
@@ -81,12 +66,8 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, tagsToSele
     };
 
     await api.put('/expense', dataToSend)
-      .then(res => {
-        console.log('[RES - editExpense]', res);
-      })
-      .catch(err => {
-        console.log('[ERR - editExpense]', err);
-      });
+      .then(res => console.log('[RES - editExpense]', res))
+      .catch(err => console.log('[ERR - editExpense]', err));
   }, [token, expenseToEdit]);
 
   useEffect(() => {
@@ -106,7 +87,6 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, tagsToSele
         value: Yup.string().required('Valor obrigatório'),
       });
       
-      console.log('DATA', data);
       !!isEdit ? editExpense(data) : createExpense(data);
 
       await schema.validate(data, { abortEarly: false });
@@ -120,7 +100,6 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, tagsToSele
       InsertEvent(data.value, data.description, data.reminderDate);
     }
   }, [onClose, createExpense, editExpense, isEdit]);
-
 
   return (
     <>

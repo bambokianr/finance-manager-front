@@ -29,7 +29,7 @@ function SignIn() {
       });
       await schema.validate(data, { abortEarly: false });
 
-      console.log('DATA', data);
+      console.log('[LOGIN]', data);
 
       await signIn({
         email: data.email,

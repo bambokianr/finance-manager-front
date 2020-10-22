@@ -15,25 +15,17 @@ function ShowAllExpenses({ expenses, tagsToSelect, update = () => {}, onClose = 
   const { token } = useAuth();
 
   async function deleteExpense(id_expense) {
-    console.log('deleteExpense', id_expense);
-    let path = '/expense' + '/' + token + '/' + id_expense;
-    console.log(path);
+    const path = `/expense/${token}/${id_expense}`;
     await api.delete(path, { token, id_expense })
-      .then(res => {
-        console.log('res', res);
-      })
-      .catch(err => {
-        console.log('[ERR - deleteExpense]', err);
-      });
-      update();
+      .then(res => console.log('[RES - deleteExpense]', res))
+      .catch(err => console.log('[ERR - deleteExpense]', err));
+    update();
   };
 
   const handleEditExpense = useCallback((expense) => {
-    console.log('expense to edit', expense);
     setExpenseToEdit(expense);
   }, []);
 
-  console.log('expenses', expenses);
   return (
     <>
       {!expenseToEdit ?

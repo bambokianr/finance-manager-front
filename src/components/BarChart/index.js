@@ -16,7 +16,6 @@ const CustomTooltip = ({ active, payload, label }) => {
       </CustomTooltipContainer>
     );
   }
-
   return null;
 };
 

@@ -28,13 +28,6 @@ function AuthProvider({ children }) {
         console.log(err);
         alert('Login inválido. Tente novamente!');
       });
-      
-    //!mock
-    // const response = { data: { user: {name: 'teste', email: 'teste@teste.teste' }, token: '123456789abcde' } };
-    // const { token, user } = response.data;
-    // localStorage.setItem('@FinanceManager:token', token);
-    // localStorage.setItem('@FinanceManager:user', JSON.stringify(user));
-    // setData({ token, user });
   }, []);
 
   const signOut = useCallback(() => {
