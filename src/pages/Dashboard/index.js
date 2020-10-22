@@ -8,7 +8,7 @@ import BarChart from '../../components/BarChart';
 import OpenCalendar from '../../components/GoogleCalendar/openCalendar';
 import logoImg from '../../assets/logoicon.png';
 import { useAuth } from '../../hooks/AuthContext';
-import formatDate from '../../utils/formatDate';
+import { formatDate } from '../../utils/formatDate';
 import api from '../../services/api';
 
 import { FiCalendar, FiEdit, FiPower, FiPlusSquare } from 'react-icons/fi';
@@ -71,6 +71,7 @@ function Dashboard() {
   };
 
   async function getExpensesChartData() {
+    console.log('getExpensesChartData');
     //! OVERVIEW SEMANAL: [GET /expensesToChart]
     await api.get(`/expensestochart?token=${token}`)
       .then(res => {
@@ -132,8 +133,8 @@ function Dashboard() {
             </ContainerTitle>
             <DayRemindersContent>
               {dayRemindersData.length === 0 && <h4>Você não possui lembretes para hoje!</h4>}
-              {dayRemindersData.map(({ id, description, value }) => 
-                <ReminderContent key={id}>
+              {dayRemindersData.map(({ id_expense, description, value }) => 
+                <ReminderContent key={id_expense}>
                   <p>{description}</p>
                   <span>
                     <FaRegMoneyBillAlt />

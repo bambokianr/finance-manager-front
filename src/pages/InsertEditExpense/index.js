@@ -46,13 +46,12 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, tagsToSele
         });
     }
 
-    console.log(data.addRemember);
     const dataToSend = { 
       token, 
       id_user: token, 
       tag: data.tag,
       description: data.description,
-      date: data.date,
+      date: data.date.concat('T00:00:00.000Z'),
       value: Number.parseFloat(data.value),
       paid: data.paid,
       remindercreated: data.addRemember ? data.reminderDate : null,
@@ -75,7 +74,7 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, tagsToSele
       id_expense: expenseToEdit.id_expense,
       tag: data.tag,
       description: data.description,
-      date: data.date,
+      date: data.date.concat('T00:00:00.000Z'),
       value: Number.parseFloat(data.value),
       paid: data.paid,
       remindercreated: data.addRemember ? data.reminderDate : null,
@@ -148,7 +147,7 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, tagsToSele
             }
             <Input name="description" placeholder="Descrição" defaultValue={expenseToEdit?.description} />
             <Input name="date" type="date" defaultValue={expenseToEdit?.date?.split('T')[0]} />
-            <Input name="value" placeholder="Valor: 0,00" defaultValue={expenseToEdit?.value} />
+            <Input name="value" placeholder="Valor: 0.00" defaultValue={expenseToEdit?.value} />
             <Checkbox 
               name="paid" 
               label="Despesa paga" 
