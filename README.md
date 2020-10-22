@@ -22,5 +22,5 @@ Principais módulos auxiliares ao desenvolvimento front-end do projeto.
 - local storage - armazenamento de informações simples do contexto do usuário no browser do cliente
 - media queries - uso para tornar dashboard responsivo 
 
-** deploy no serviço Netlify - para aplicações estáticas. [Clique aqui]() para acessar a aplicação.
+** deploy no serviço Netlify - para aplicações estáticas. [Clique aqui](https://gifted-johnson-2faf1a.netlify.app/) para acessar a aplicação.
 
