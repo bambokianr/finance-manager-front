@@ -1,7 +1,7 @@
 function InsertEvent(value, description, date) {
 
     var gapi = window.gapi;
-    var CLIENT_ID = "700374173719-am3c166850l24pfu6kgsvkojuhfptodl.apps.googleusercontent.com";
+    var CLIENT_ID = "700374173719-pgslvviuj42tsqv1e4vilhk4qbb3mgmv.apps.googleusercontent.com";
     var API_KEY = "AIzaSyBgQqem5SfPf-_poVdzqssnC2CQbBIN9Zk";
     var SCOPES = "https://www.googleapis.com/auth/calendar";
     var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
