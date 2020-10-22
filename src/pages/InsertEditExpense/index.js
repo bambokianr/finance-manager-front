@@ -36,15 +36,15 @@ function InsertEditExpense({ isEdit = false, expenseToEdit, expenses, tagsToSele
   }, [expenseToEdit]);
 
   const createExpense = useCallback(async (data) => {
-    if(!!createNewTag) {
-      await api.post('tag', { token, tag: data.tag })
-        .then(res => {
-          console.log('criar tag', res);
-        })
-        .catch(err => {
-          console.log('[ERR - createTag]', err);
-        });
-    }
+    // if(!!createNewTag) {
+    //   await api.post('tag', { token, tag: data.tag })
+    //     .then(res => {
+    //       console.log('criar tag', res);
+    //     })
+    //     .catch(err => {
+    //       console.log('[ERR - createTag]', err);
+    //     });
+    // }
 
     const dataToSend = { 
       token, 

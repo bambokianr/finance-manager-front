@@ -63,6 +63,9 @@ function BarChart({ filterOptions, data = [] }) {
     });
 
     //! ordenar dados por data
+    groupedData.sort((a, b) => {
+      return (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0);
+    });
     
     setChartData(groupedData); 
   }, [data, selectedFilter]);
