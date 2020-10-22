@@ -27,3 +27,4 @@ Principais módulos auxiliares ao desenvolvimento front-end do projeto.
 
 ** deploy no serviço Netlify - para aplicações estáticas. [Clique aqui](https://gifted-johnson-2faf1a.netlify.app/) para acessar a aplicação.
 
+obs: repositório back-end do projeto [aqui](https://github.com/alvesouza/financemanagerces26back).
