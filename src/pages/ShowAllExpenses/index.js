@@ -18,13 +18,13 @@ function ShowAllExpenses({ expenses, tagsToSelect, onClose = () => {} }) {
     console.log('deleteExpense', id_expense);
     let path = '/expense' + '/' + token + '/' + id_expense;
     console.log(path);
-    /*await api.delete('/expense', { token, id_expense })
+    await api.delete(path, { token, id_expense })
       .then(res => {
         console.log('res', res);
       })
       .catch(err => {
         console.log('[ERR - deleteExpense]', err);
-      });*/
+      });
   };
 
   const handleEditExpense = useCallback((expense) => {
